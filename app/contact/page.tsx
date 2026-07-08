@@ -48,7 +48,12 @@ export default async function ContactPage({
               <ul className="mt-4 space-y-4 text-sm text-brand-900/75">
                 <li className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" />
-                  {SITE.address}
+                  <span>
+                    {SITE.location}
+                    <span className="block text-xs text-brand-900/50">
+                      Office: {SITE.address}
+                    </span>
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="h-4 w-4 shrink-0 text-brand-700" />

@@ -6,16 +6,16 @@ export const SITE = {
   headlineAccent: "Water's Edge",
   subheadline:
     "Luxury villas, glamping tents and lakeside cottages, wrapped in nature, adventure and warm hospitality.",
-  location: "Bhandardara Lake, Maharashtra",
-  phone: "+91 98765 43210",
-  email: "stay@gsbholidays.in",
-  address: "GSB Holidays, Lakeside Road, Bhandardara, Maharashtra 422605",
+  location: "Pawna Lake, Lonavala, Maharashtra",
+  phone: "+91 84529 89850",
+  email: "gsbholidays@gmail.com",
+  address: "GSB Holidays, Mumbai, Maharashtra, India",
   social: {
-    instagram: "https://instagram.com/gsbholidays",
-    facebook: "https://facebook.com/gsbholidays",
-    whatsapp: "https://wa.me/919876543210",
+    instagram: "https://www.instagram.com/pawnalake238",
+    facebook: "https://www.facebook.com/profile.php?id=61584727873937",
+    whatsapp: "https://wa.me/918452989850",
   },
-  mapEmbedQuery: "Bhandardara Lake, Maharashtra",
+  mapEmbedQuery: "Pawna Lake, Lonavala, Maharashtra",
 };
 
 export const NAV_LINKS = [
@@ -183,20 +183,20 @@ export const GALLERY_IMAGES = [
 
 export const EXPLORE_LOCATIONS = [
   {
-    name: "Bhandardara Lakefront",
-    description: "Our flagship property, right on the water's edge.",
+    name: "Pawna Lake Backwaters",
+    description: "Still, open water right at camp — perfect for sunrise boat rides.",
     image:
       "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    name: "Sahyadri Hillside Camp",
-    description: "Tucked into the hills with panoramic valley views.",
+    name: "Tikona Fort Trek",
+    description: "A popular sunrise trek a short drive from the lake.",
     image:
       "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    name: "Pravara Riverside Retreat",
-    description: "A quieter riverside escape for small groups.",
+    name: "Lohagad Fort",
+    description: "A historic hill fort nearby, ideal for a half-day outing.",
     image:
       "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1400&auto=format&fit=crop",
   },

@@ -13,8 +13,8 @@ export default function ExploreLocations() {
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <SectionHeading
-            eyebrow="Explore Locations"
-            title="Discover Our Resorts Across Stunning Destinations"
+            eyebrow="Around the Lake"
+            title="Things to Explore Near Pawna Lake"
             light
           />
         </Reveal>
