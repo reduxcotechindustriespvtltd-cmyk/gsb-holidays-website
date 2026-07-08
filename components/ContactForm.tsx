@@ -17,8 +17,12 @@ export default function ContactForm({ defaultPackage }: { defaultPackage?: strin
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // Capture the form element synchronously — `e.currentTarget` is only
+    // valid during the event's dispatch phase and becomes null once we
+    // resume after the `await` below, so reading it later throws.
+    const formEl = e.currentTarget;
     setStatus("loading");
-    const form = new FormData(e.currentTarget);
+    const form = new FormData(formEl);
     const payload = {
       ...Object.fromEntries(form.entries()),
       checkIn: checkIn ? toISODate(checkIn) : "",
@@ -34,11 +38,12 @@ export default function ContactForm({ defaultPackage }: { defaultPackage?: strin
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("success");
-      e.currentTarget.reset();
+      formEl.reset();
       setCheckIn(null);
       setCheckOut(null);
       setGuests(2);
-    } catch {
+    } catch (error) {
+      console.error("Inquiry submission failed:", error);
       setStatus("error");
     }
   }
