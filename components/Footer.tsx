@@ -5,7 +5,7 @@ import SocialIcon from "./SocialIcon";
 
 export default function Footer() {
   return (
-      <footer className="relative overflow-hidden bg-brand-950 text-white">
+      <footer className="relative overflow-hidden border-t border-white/20 bg-brand-950 text-white">
         <div
           className="pointer-events-none absolute top-0 left-1/2 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-gold-400/20 blur-3xl"
           aria-hidden="true"
