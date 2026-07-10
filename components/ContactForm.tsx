@@ -5,11 +5,17 @@ import { Loader2, Send } from "lucide-react";
 import DatePicker from "./DatePicker";
 import GuestSelector from "./GuestSelector";
 import { addDays, toISODate } from "@/lib/date";
-import { PACKAGES } from "@/lib/data";
+import type { Package } from "@/lib/data";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-export default function ContactForm({ defaultPackage }: { defaultPackage?: string }) {
+export default function ContactForm({
+  defaultPackage,
+  packages,
+}: {
+  defaultPackage?: string;
+  packages: Package[];
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
@@ -103,7 +109,7 @@ export default function ContactForm({ defaultPackage }: { defaultPackage?: strin
           className="w-full rounded-xl border border-brand-900/15 bg-white/70 px-4 py-2.5 text-sm text-brand-950 outline-none transition focus:border-gold-500"
         >
           <option value="">Not sure yet</option>
-          {PACKAGES.map((pkg) => (
+          {packages.map((pkg) => (
             <option key={pkg.slug} value={pkg.slug}>
               {pkg.name}
             </option>

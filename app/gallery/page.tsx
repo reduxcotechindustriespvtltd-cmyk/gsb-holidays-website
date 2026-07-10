@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import Gallery from "@/components/Gallery";
 import { SITE } from "@/lib/data";
+import { getGalleryImages } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: `Gallery - ${SITE.name}`,
   description: `Photo gallery of ${SITE.name}, the lakeside camping resort at ${SITE.location}.`,
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const images = await getGalleryImages();
+
   return (
     <>
       <PageHero
@@ -17,7 +20,7 @@ export default function GalleryPage() {
         description="Sunrises, bonfires, water sports and everything in between."
         image="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2000&auto=format&fit=crop"
       />
-      <Gallery showHeading={false} showCta={false} />
+      <Gallery images={images} showHeading={false} showCta={false} />
     </>
   );
 }

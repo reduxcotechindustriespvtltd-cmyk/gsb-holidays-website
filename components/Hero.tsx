@@ -15,6 +15,7 @@ export default function Hero() {
         alt="GSB Holidays lakeside camp at dusk"
         fill
         priority
+        sizes="100vw"
         className="object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-950/60 via-brand-950/40 to-brand-950/90" />

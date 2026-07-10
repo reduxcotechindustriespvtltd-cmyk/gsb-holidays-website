@@ -5,11 +5,11 @@ import SocialIcon from "./SocialIcon";
 
 export default function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden bg-brand-950 text-white">
-      <div
-        className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-gold-400/20 blur-3xl"
-        aria-hidden="true"
-      />
+      <footer className="relative overflow-hidden bg-brand-950 text-white">
+        <div
+          className="pointer-events-none absolute top-0 left-1/2 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-gold-400/20 blur-3xl"
+          aria-hidden="true"
+        />
       <div className="relative mx-auto max-w-6xl px-6 py-16">
         <div className="glass-sheen glass rounded-3xl p-8 md:p-12">
           <div className="grid gap-10 md:grid-cols-4">

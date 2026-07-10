@@ -36,6 +36,8 @@ export type Package = {
   description: string;
   amenities: string[];
   image: string;
+  images?: string[];
+  video?: string | null;
 };
 
 export const PACKAGES: Package[] = [

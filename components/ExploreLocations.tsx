@@ -12,21 +12,22 @@ export default function ExploreLocations() {
       />
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <SectionHeading
-            eyebrow="Around the Lake"
-            title="Things to Explore Near Pawna Lake"
-            light
-          />
+          <SectionHeading eyebrow="Explore" title="Things to Explore Nearby" light />
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="mt-14 -mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {EXPLORE_LOCATIONS.map((loc, i) => (
-            <Reveal key={loc.name} delay={i * 0.12}>
+            <Reveal
+              key={loc.name}
+              delay={i * 0.12}
+              className="w-[80%] shrink-0 snap-start sm:w-[45%] lg:w-[32%]"
+            >
               <div className="glass-sheen glass-border-glow group relative h-80 overflow-hidden rounded-3xl border border-white/15">
                 <Image
                   src={loc.image}
                   alt={loc.name}
                   fill
+                  sizes="(min-width: 1024px) 32vw, (min-width: 640px) 45vw, 80vw"
                   className="object-cover transition duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-950/20 to-transparent" />

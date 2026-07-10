@@ -5,15 +5,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
-import { TESTIMONIALS } from "@/lib/data";
+import type { Testimonial } from "@/lib/data";
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const [index, setIndex] = useState(0);
-  const testimonial = TESTIMONIALS[index];
+  const testimonial = testimonials[index];
 
   const go = (dir: 1 | -1) => {
-    setIndex((prev) => (prev + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
+    setIndex((prev) => (prev + dir + testimonials.length) % testimonials.length);
   };
+
+  if (!testimonial) return null;
 
   return (
     <section className="relative overflow-hidden bg-brand-950 py-24">
@@ -81,7 +83,7 @@ export default function Testimonials() {
         </div>
 
         <div className="mt-6 flex justify-center gap-2">
-          {TESTIMONIALS.map((t, i) => (
+          {testimonials.map((t, i) => (
             <button
               key={t.name}
               type="button"

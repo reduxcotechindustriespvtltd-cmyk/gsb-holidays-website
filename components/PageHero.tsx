@@ -13,7 +13,7 @@ export default function PageHero({
 }) {
   return (
     <section className="relative flex h-[46vh] min-h-[320px] items-center justify-center overflow-hidden pt-20">
-      <Image src={image} alt={title} fill priority className="object-cover" />
+      <Image src={image} alt={title} fill priority sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-950/75 via-brand-950/60 to-brand-950/90" />
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
         <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-300">

@@ -4,6 +4,7 @@ import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
+import { getPackages } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: `Contact Us - ${SITE.name}`,
@@ -15,7 +16,7 @@ export default async function ContactPage({
 }: {
   searchParams: Promise<{ package?: string }>;
 }) {
-  const { package: pkg } = await searchParams;
+  const [{ package: pkg }, packages] = await Promise.all([searchParams, getPackages()]);
 
   return (
     <>
@@ -36,7 +37,7 @@ export default async function ContactPage({
               We usually respond within a few hours.
             </p>
             <div className="mt-6">
-              <ContactForm defaultPackage={pkg} />
+              <ContactForm defaultPackage={pkg} packages={packages} />
             </div>
           </GlassCard>
 

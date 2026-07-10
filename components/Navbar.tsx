@@ -28,7 +28,7 @@ export default function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4">
       <nav
         className={`glass-sheen w-full max-w-6xl rounded-2xl transition-all duration-500 ${
-          scrolled ? "glass-strong" : "glass"
+          scrolled ? "nav-scrolled" : "glass"
         }`}
       >
         <div className="flex items-center justify-between px-5 py-3">

@@ -5,17 +5,24 @@ import Packages from "@/components/Packages";
 import Activities from "@/components/Activities";
 import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
+import { getGalleryImages, getPackages, getTestimonials } from "@/lib/cms";
 
-export default function Home() {
+export default async function Home() {
+  const [packages, images, testimonials] = await Promise.all([
+    getPackages(),
+    getGalleryImages(),
+    getTestimonials(),
+  ]);
+
   return (
     <>
       <Hero />
       <About />
       <ExploreLocations />
-      <Packages />
+      <Packages packages={packages} />
       <Activities />
-      <Gallery limit={6} />
-      <Testimonials />
+      <Gallery images={images} limit={6} />
+      <Testimonials testimonials={testimonials} />
     </>
   );
 }
