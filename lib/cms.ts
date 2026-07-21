@@ -32,7 +32,10 @@ async function fetchFromCrm<T>(path: string): Promise<T | null> {
 
 export async function getPackages(): Promise<Package[]> {
   const data = await fetchFromCrm<{ packages: Package[] }>("/api/public/packages");
-  return data?.packages ?? PACKAGES;
+  const packages = data?.packages ?? PACKAGES;
+  // The CRM returns packages oldest-first (manual `order`, then createdAt
+  // ascending) — reverse so the most recently added package shows first.
+  return [...packages].reverse();
 }
 
 export async function getPackageBySlug(slug: string): Promise<Package | null> {

@@ -39,12 +39,16 @@ export default function Navbar() {
         }`}
       >
         <div className="flex items-center justify-between px-5 py-3">
-          <Link href="/" className="flex items-center gap-2 text-white">
-            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
-              <Image src="/logo-icon.png" alt="" fill sizes="36px" className="object-cover" />
-            </span>
-            <span className="font-display text-lg font-semibold tracking-wide">
-              {SITE.name}
+          <Link href="/" className="flex items-center">
+            <span className="inline-flex items-center rounded-xl bg-white/95 px-2.5 py-1.5 shadow-sm">
+              <Image
+                src="/logo-full.png"
+                alt={SITE.name}
+                width={808}
+                height={282}
+                priority
+                className="h-9 w-auto sm:h-10"
+              />
             </span>
           </Link>
 

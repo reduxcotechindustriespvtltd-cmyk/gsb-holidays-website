@@ -5,6 +5,5 @@
 export function packageGridColsClass(count: number) {
   if (count <= 1) return "lg:grid-cols-1";
   if (count === 2) return "lg:grid-cols-2";
-  if (count === 3) return "lg:grid-cols-3";
-  return "lg:grid-cols-4";
+  return "lg:grid-cols-3";
 }

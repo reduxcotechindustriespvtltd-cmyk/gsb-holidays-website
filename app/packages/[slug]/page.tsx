@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, IndianRupee } from "lucide-react";
 import GlassCard from "@/components/GlassCard";
 import Reveal from "@/components/Reveal";
 import PackageGallery from "@/components/PackageGallery";
+import PackageHeroSlideshow from "@/components/PackageHeroSlideshow";
 import VideoEmbed from "@/components/VideoEmbed";
 import { SITE } from "@/lib/data";
 import { getPackageBySlug, getPackages } from "@/lib/cms";
@@ -44,7 +44,7 @@ export default async function PackageDetailPage({
   return (
     <>
       <section className="relative h-[56vh] min-h-[420px] w-full overflow-hidden pt-20">
-        <Image src={pkg.image} alt={pkg.name} fill priority sizes="100vw" className="object-cover" />
+        <PackageHeroSlideshow images={galleryImages} alt={pkg.name} />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-950/95 via-brand-950/40 to-brand-950/70" />
         <div className="absolute inset-0 flex flex-col justify-end px-6 pb-12">
           <div className="mx-auto w-full max-w-5xl">
@@ -112,13 +112,13 @@ export default async function PackageDetailPage({
 
           <Reveal delay={0.1}>
             <GlassCard variant="light" className="lg:sticky lg:top-24 p-6 sm:p-8">
-              <div className="flex items-center text-brand-950">
+              <div className="flex items-baseline text-brand-950">
                 <IndianRupee className="h-5 w-5" />
                 <span className="font-display text-3xl font-semibold">
                   {pkg.price.toLocaleString("en-IN")}
                 </span>
+                <span className="text-sm text-brand-900/60">/Per Person</span>
               </div>
-              <span className="text-sm text-brand-900/60">Per Person</span>
 
               <Link
                 href={`/contact?package=${pkg.slug}`}

@@ -149,10 +149,8 @@ export default async function ThankYouPage({
                       </div>
                     </div>
                     <div className="mt-3 flex items-center justify-between border-t border-brand-900/15 pt-3">
-                      <span className="font-display text-base font-semibold text-brand-950">
-                        Total Amount
-                      </span>
-                      <span className="flex items-center font-display text-xl font-semibold text-brand-950">
+                      <span className="text-base font-bold text-brand-950">Total Amount</span>
+                      <span className="flex items-center text-xl font-bold text-brand-950">
                         <IndianRupee className="h-4 w-4" />
                         {total.toLocaleString("en-IN")}
                       </span>

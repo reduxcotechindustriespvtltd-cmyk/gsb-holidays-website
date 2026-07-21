@@ -10,9 +10,13 @@ export function formatDate(date: Date) {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    timeZone: "Asia/Kolkata",
   });
 }
 
+// The server (Vercel) runs in UTC, so without an explicit timeZone this
+// would render the inquiry's submitted time ~5:30h behind actual IST —
+// GSB Holidays only operates in India, so IST is always correct here.
 export function formatDateTime(date: Date) {
   return date.toLocaleString("en-GB", {
     day: "2-digit",
@@ -20,6 +24,7 @@ export function formatDateTime(date: Date) {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Asia/Kolkata",
   });
 }
 

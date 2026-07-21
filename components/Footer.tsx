@@ -15,11 +15,16 @@ export default function Footer() {
         <div className="glass-sheen glass rounded-3xl p-8 md:p-12">
           <div className="grid gap-10 md:grid-cols-4">
             <div className="md:col-span-2">
-              <Link href="/" className="flex items-center gap-2">
-                <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
-                  <Image src="/logo-icon.png" alt="" fill sizes="36px" className="object-cover" />
+              <Link href="/" className="inline-flex items-center">
+                <span className="inline-flex items-center rounded-xl bg-white/95 px-3 py-2 shadow-sm">
+                  <Image
+                    src="/logo-full.png"
+                    alt={SITE.name}
+                    width={808}
+                    height={282}
+                    className="h-11 w-auto"
+                  />
                 </span>
-                <span className="font-display text-xl font-semibold">{SITE.name}</span>
               </Link>
               <p className="mt-4 max-w-sm text-sm text-white/70">
                 {SITE.footerDescription}

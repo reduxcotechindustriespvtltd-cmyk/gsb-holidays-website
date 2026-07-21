@@ -42,7 +42,7 @@ export default function PackageCard({ pkg }: { pkg: Package }) {
             {pkg.name}
           </h3>
         </Link>
-        <p className="mt-2 flex-1 text-sm text-brand-900/70">{pkg.description}</p>
+        <p className="mt-2 line-clamp-3 flex-1 text-sm text-brand-900/70">{pkg.description}</p>
 
         <ul className="mt-4 space-y-1.5">
           {pkg.amenities.slice(0, 3).map((a) => (
@@ -53,14 +53,12 @@ export default function PackageCard({ pkg }: { pkg: Package }) {
           ))}
         </ul>
 
-        <div className="mt-5 border-t border-brand-900/10 pt-4">
-          <div className="flex items-center text-brand-950">
-            <IndianRupee className="h-4 w-4" />
-            <span className="font-display text-xl font-semibold">
-              {pkg.price.toLocaleString("en-IN")}
-            </span>
-          </div>
-          <span className="text-xs text-brand-900/60">Per Person</span>
+        <div className="mt-5 flex items-baseline border-t border-brand-900/10 pt-4 text-brand-950">
+          <IndianRupee className="h-4 w-4" />
+          <span className="font-display text-xl font-semibold">
+            {pkg.price.toLocaleString("en-IN")}
+          </span>
+          <span className="text-xs text-brand-900/60">/Per Person</span>
         </div>
 
         <div className="mt-5 flex items-center gap-2">
