@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, IndianRupee } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
-import { formatDateTime } from "@/lib/date";
+import { formatDate, formatDateTime } from "@/lib/date";
+import { getPackageBySlug } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: `Thank You - ${SITE.name}`,
@@ -14,9 +16,25 @@ export const metadata: Metadata = {
 export default async function ThankYouPage({
   searchParams,
 }: {
-  searchParams: Promise<{ id?: string; package?: string; at?: string }>;
+  searchParams: Promise<{
+    id?: string;
+    package?: string;
+    at?: string;
+    name?: string;
+    phone?: string;
+    email?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: string;
+  }>;
 }) {
-  const { id, package: packageName, at } = await searchParams;
+  const { id, package: packageSlug, at, name, phone, email, checkIn, checkOut, guests } =
+    await searchParams;
+
+  const pkg = packageSlug ? await getPackageBySlug(packageSlug) : null;
+  const guestCount = Number(guests) > 0 ? Number(guests) : 1;
+  const subtotal = pkg ? pkg.price * guestCount : 0;
+  const total = subtotal;
 
   return (
     <>
@@ -27,8 +45,8 @@ export default async function ThankYouPage({
         image="https://images.unsplash.com/photo-1487730116645-74489c95b41b?q=80&w=2000&auto=format&fit=crop"
       />
 
-      <section className="mx-auto max-w-2xl px-6 py-20">
-        <GlassCard variant="light" className="p-8 text-center sm:p-10">
+      <section className="mx-auto max-w-3xl px-6 py-12 sm:py-16 lg:py-20">
+        <GlassCard variant="light" className="p-6 text-center sm:p-10">
           {id ? (
             <>
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-900 text-gold-300">
@@ -47,16 +65,101 @@ export default async function ThankYouPage({
                   <dd className="font-semibold text-brand-950">{id}</dd>
                 </div>
                 <div className="flex items-center justify-between gap-4">
-                  <dt className="font-medium text-brand-900/60">Package</dt>
-                  <dd className="font-semibold text-brand-950">{packageName ?? "Not selected"}</dd>
-                </div>
-                <div className="flex items-center justify-between gap-4">
                   <dt className="font-medium text-brand-900/60">Submitted</dt>
                   <dd className="font-semibold text-brand-950">
                     {at ? formatDateTime(new Date(at)) : "—"}
                   </dd>
                 </div>
               </dl>
+
+              <div className="mt-6 rounded-2xl border border-brand-900/10 bg-white/60 p-6 text-left">
+                <h3 className="font-display text-lg font-semibold text-brand-950">
+                  Guest Details
+                </h3>
+                <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                  <div>
+                    <dt className="font-medium text-brand-900/60">Full Name</dt>
+                    <dd className="font-semibold text-brand-950">{name || "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-brand-900/60">Phone</dt>
+                    <dd className="font-semibold text-brand-950">{phone || "—"}</dd>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <dt className="font-medium text-brand-900/60">Email</dt>
+                    <dd className="font-semibold text-brand-950">{email || "—"}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-brand-900/60">Check-in</dt>
+                    <dd className="font-semibold text-brand-950">
+                      {checkIn ? formatDate(new Date(checkIn)) : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-brand-900/60">Check-out</dt>
+                    <dd className="font-semibold text-brand-950">
+                      {checkOut ? formatDate(new Date(checkOut)) : "—"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-brand-900/60">Guests</dt>
+                    <dd className="font-semibold text-brand-950">{guestCount}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              {pkg && (
+                <div className="mt-6 overflow-hidden rounded-2xl border border-brand-900/10 bg-white/60 text-left">
+                  <div className="flex gap-4 p-6">
+                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-24">
+                      <Image src={pkg.image} alt={pkg.name} fill className="object-cover" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold uppercase tracking-wide text-gold-600">
+                        {pkg.type}
+                      </span>
+                      <h3 className="font-display text-lg font-semibold text-brand-950">
+                        {pkg.name}
+                      </h3>
+                      <p className="mt-1 line-clamp-2 text-xs text-brand-900/70">
+                        {pkg.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-brand-900/10 p-6">
+                    <h4 className="text-xs font-semibold uppercase tracking-widest text-brand-900/60">
+                      Amount Summary
+                    </h4>
+                    <div className="mt-4 space-y-2 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="text-brand-900/70">
+                          {guestCount} Guest{guestCount > 1 ? "s" : ""} × ₹
+                          {pkg.price.toLocaleString("en-IN")}
+                        </span>
+                        <span className="font-medium text-brand-950">
+                          ₹{subtotal.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between border-t border-dashed border-brand-900/15 pt-2">
+                        <span className="text-brand-900/70">Subtotal</span>
+                        <span className="font-medium text-brand-950">
+                          ₹{subtotal.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between border-t border-brand-900/15 pt-3">
+                      <span className="font-display text-base font-semibold text-brand-950">
+                        Total Amount
+                      </span>
+                      <span className="flex items-center font-display text-xl font-semibold text-brand-950">
+                        <IndianRupee className="h-4 w-4" />
+                        {total.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>

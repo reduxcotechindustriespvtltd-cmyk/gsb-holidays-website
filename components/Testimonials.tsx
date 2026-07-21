@@ -18,7 +18,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   if (!testimonial) return null;
 
   return (
-    <section className="relative overflow-hidden bg-brand-950 py-24">
+    <section className="relative overflow-hidden bg-brand-950 py-14 sm:py-20 lg:py-24">
       <div
         className="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-gold-400/15 blur-3xl"
         aria-hidden="true"

@@ -42,7 +42,7 @@ export default async function PackagesPage({
         image="https://images.unsplash.com/photo-1517824806704-9040b037703b?q=80&w=2000&auto=format&fit=crop"
       />
 
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      <section className="mx-auto max-w-6xl px-6 py-12 sm:py-16 lg:py-20">
         <PackageBrowser packages={packages} />
       </section>
     </>

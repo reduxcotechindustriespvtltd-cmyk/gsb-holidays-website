@@ -6,7 +6,7 @@ import { EXPLORE_DESTINATIONS } from "@/lib/data";
 
 export default function ExploreLocations() {
   return (
-    <section className="relative bg-brand-950 py-24">
+    <section className="relative bg-brand-950 py-14 sm:py-20 lg:py-24">
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/40 to-transparent"
         aria-hidden="true"

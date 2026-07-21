@@ -120,6 +120,15 @@ body {
   transform: translateY(-4px);
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 ::selection {
   background: var(--gold-400);
   color: var(--brand-950);

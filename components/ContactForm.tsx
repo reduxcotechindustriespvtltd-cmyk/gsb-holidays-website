@@ -59,11 +59,16 @@ export default function ContactForm({
         throw new Error("Request failed");
       }
 
-      const selectedPackage = packages.find((pkg) => pkg.slug === payload.package);
       const params = new URLSearchParams({
         id: data.inquiryId,
-        package: selectedPackage?.name ?? "Not selected",
+        package: payload.package,
         at: data.submittedAt,
+        name: payload.name,
+        phone: payload.phone,
+        email: payload.email,
+        checkIn: payload.checkIn,
+        checkOut: payload.checkOut,
+        guests: payload.guests,
       });
       router.push(`/contact/thank-you?${params.toString()}`);
     } catch (error) {

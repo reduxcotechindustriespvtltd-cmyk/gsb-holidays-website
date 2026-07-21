@@ -36,7 +36,7 @@ export default function PrivacyPage() {
         description="How we handle and protect your personal information."
         image="https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?q=80&w=2000&auto=format&fit=crop"
       />
-      <section className="mx-auto max-w-3xl px-6 py-20">
+      <section className="mx-auto max-w-3xl px-6 py-12 sm:py-16 lg:py-20">
         <GlassCard variant="light" className="space-y-8 p-8 sm:p-10" hoverGlow={false}>
           {SECTIONS.map((section) => (
             <div key={section.title}>

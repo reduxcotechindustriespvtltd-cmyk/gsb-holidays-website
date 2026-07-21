@@ -36,7 +36,7 @@ export default function CancellationPolicyPage() {
         description={`Our policy on cancellations, rescheduling and refunds at ${SITE.name}.`}
         image="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2000&auto=format&fit=crop"
       />
-      <section className="mx-auto max-w-3xl px-6 py-20">
+      <section className="mx-auto max-w-3xl px-6 py-12 sm:py-16 lg:py-20">
         <GlassCard variant="light" className="space-y-8 p-8 sm:p-10" hoverGlow={false}>
           {SECTIONS.map((section) => (
             <div key={section.title}>

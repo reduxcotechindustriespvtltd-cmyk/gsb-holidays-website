@@ -65,7 +65,7 @@ export default async function PackageDetailPage({
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-16">
+      <section className="mx-auto max-w-5xl px-6 py-10 sm:py-12 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr]">
           <Reveal>
             <div>
@@ -111,7 +111,7 @@ export default async function PackageDetailPage({
           </Reveal>
 
           <Reveal delay={0.1}>
-            <GlassCard variant="light" className="sticky top-24 p-6 sm:p-8">
+            <GlassCard variant="light" className="lg:sticky lg:top-24 p-6 sm:p-8">
               <div className="flex items-center text-brand-950">
                 <IndianRupee className="h-5 w-5" />
                 <span className="font-display text-3xl font-semibold">

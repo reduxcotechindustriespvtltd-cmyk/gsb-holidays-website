@@ -43,9 +43,9 @@ export default function GalleryTabs({
       {tab === "images" ? (
         <Gallery images={images} showHeading={false} showCta={false} />
       ) : (
-        <section className="relative mx-auto max-w-6xl px-6 py-24">
+        <section className="relative mx-auto max-w-6xl px-6 py-14 sm:py-20 lg:py-24">
           {videos.length === 0 ? (
-            <div className="mx-auto flex max-w-md flex-col items-center gap-3 py-16 text-center">
+            <div className="mx-auto flex max-w-md flex-col items-center gap-3 py-10 sm:py-16 text-center">
               <Video className="h-8 w-8 text-brand-900/40" />
               <p className="text-sm text-brand-900/60">
                 Videos are coming soon — check back for a look around GSB Holidays.

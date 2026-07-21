@@ -15,7 +15,7 @@ const ICONS: Record<Activity["icon"], typeof Waves> = {
 
 export default function Activities() {
   return (
-    <section className="relative overflow-hidden bg-brand-900 py-24">
+    <section className="relative overflow-hidden bg-brand-900 py-14 sm:py-20 lg:py-24">
       <div
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gold-400/10 blur-3xl"
         aria-hidden="true"

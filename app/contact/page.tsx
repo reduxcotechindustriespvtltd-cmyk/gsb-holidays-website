@@ -27,7 +27,7 @@ export default async function ContactPage({
         image="https://images.unsplash.com/photo-1487730116645-74489c95b41b?q=80&w=2000&auto=format&fit=crop"
       />
 
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      <section className="mx-auto max-w-6xl px-6 py-12 sm:py-16 lg:py-20">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <GlassCard variant="light" className="p-6 sm:p-8">
             <h2 className="font-display text-xl font-semibold text-brand-950">

@@ -7,7 +7,7 @@ import type { Package } from "@/lib/data";
 
 export default function Packages({ packages }: { packages: Package[] }) {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-24">
+    <section className="relative mx-auto max-w-6xl px-6 py-14 sm:py-20 lg:py-24">
       <Reveal>
         <SectionHeading
           eyebrow="Stay With Us"

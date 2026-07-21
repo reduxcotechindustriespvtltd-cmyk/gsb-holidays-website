@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Menu, Tent, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { DESTINATIONS, NAV_LINKS, SITE } from "@/lib/data";
 
 export default function Navbar() {
@@ -34,13 +35,13 @@ export default function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4">
       <nav
         className={`glass-sheen w-full max-w-6xl rounded-2xl transition-all duration-500 ${
-          scrolled ? "nav-scrolled" : "glass"
+          scrolled || open ? "nav-scrolled" : "glass"
         }`}
       >
         <div className="flex items-center justify-between px-5 py-3">
           <Link href="/" className="flex items-center gap-2 text-white">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400/90 text-brand-950">
-              <Tent className="h-5 w-5" />
+            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
+              <Image src="/logo-icon.png" alt="" fill sizes="36px" className="object-cover" />
             </span>
             <span className="font-display text-lg font-semibold tracking-wide">
               {SITE.name}

@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone, Tent } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { NAV_LINKS, SITE } from "@/lib/data";
 import SocialIcon from "./SocialIcon";
 
@@ -15,8 +16,8 @@ export default function Footer() {
           <div className="grid gap-10 md:grid-cols-4">
             <div className="md:col-span-2">
               <Link href="/" className="flex items-center gap-2">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-400/90 text-brand-950">
-                  <Tent className="h-5 w-5" />
+                <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
+                  <Image src="/logo-icon.png" alt="" fill sizes="36px" className="object-cover" />
                 </span>
                 <span className="font-display text-xl font-semibold">{SITE.name}</span>
               </Link>
@@ -108,8 +109,21 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mt-10 border-t border-white/10 pt-6 text-center text-xs text-white/50">
-            © {new Date().getFullYear()} {SITE.name}. All rights reserved.
+          <div className="mt-10 flex flex-col items-center gap-2 border-t border-white/10 pt-6 text-center text-xs text-white/50">
+            <span>
+              © {new Date().getFullYear()} {SITE.name}. All rights reserved.
+            </span>
+            <span>
+              Developed by{" "}
+              <a
+                href="https://grayfoxtechnologies.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-white/70 transition hover:text-gold-300"
+              >
+                GrayFoxTech
+              </a>
+            </span>
           </div>
         </div>
       </div>
