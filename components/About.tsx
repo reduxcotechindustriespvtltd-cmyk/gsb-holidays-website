@@ -29,7 +29,7 @@ export default function About() {
         <SectionHeading
           eyebrow="About Us"
           title={`Why Guests Choose ${SITE.name}`}
-          description="Every decision we make is focused on creating memorable moments for our guests, right at the water's edge."
+          description="Handpicked stays, trusted service, and unforgettable getaways — all in one place."
         />
       </Reveal>
 

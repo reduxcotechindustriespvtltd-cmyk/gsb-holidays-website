@@ -49,18 +49,18 @@ export default async function ContactPage({
               <ul className="mt-4 space-y-4 text-sm text-brand-900/75">
                 <li className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" />
-                  <span>
-                    {SITE.location}
-                    <span className="block text-xs text-brand-900/50">
-                      Office: {SITE.address}
-                    </span>
-                  </span>
+                  <span>{SITE.address}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="h-4 w-4 shrink-0 text-brand-700" />
-                  <a href={`tel:${SITE.phone}`} className="hover:text-brand-700">
-                    {SITE.phone}
-                  </a>
+                  <span className="flex flex-col">
+                    <a href={`tel:${SITE.phone}`} className="hover:text-brand-700">
+                      {SITE.phone}
+                    </a>
+                    <a href={`tel:${SITE.phoneSecondary}`} className="hover:text-brand-700">
+                      {SITE.phoneSecondary}
+                    </a>
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="h-4 w-4 shrink-0 text-brand-700" />

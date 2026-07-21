@@ -1,4 +1,11 @@
-import { PACKAGES, GALLERY_IMAGES, TESTIMONIALS, type Package, type Testimonial } from "./data";
+import {
+  PACKAGES,
+  GALLERY_IMAGES,
+  GALLERY_VIDEOS,
+  TESTIMONIALS,
+  type Package,
+  type Testimonial,
+} from "./data";
 
 // Pulls live content from the GSB CRM's public, unauthenticated read API so
 // editing a Package/Gallery photo/Testimonial there shows up here without a
@@ -36,6 +43,11 @@ export async function getPackageBySlug(slug: string): Promise<Package | null> {
 export async function getGalleryImages(): Promise<string[]> {
   const data = await fetchFromCrm<{ images: string[] }>("/api/public/gallery");
   return data?.images ?? GALLERY_IMAGES;
+}
+
+export async function getGalleryVideos(): Promise<string[]> {
+  const data = await fetchFromCrm<{ videos: string[] }>("/api/public/gallery-videos");
+  return data?.videos ?? GALLERY_VIDEOS;
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CheckCircle2, IndianRupee, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, IndianRupee } from "lucide-react";
 import GlassCard from "@/components/GlassCard";
 import Reveal from "@/components/Reveal";
 import PackageGallery from "@/components/PackageGallery";
@@ -118,12 +118,7 @@ export default async function PackageDetailPage({
                   {pkg.price.toLocaleString("en-IN")}
                 </span>
               </div>
-              <span className="text-sm text-brand-900/60">{pkg.priceUnit}</span>
-
-              <div className="mt-4 flex items-center gap-2 border-t border-brand-900/10 pt-4 text-sm text-brand-900/70">
-                <Users className="h-4 w-4" />
-                Up to {pkg.maxGuests} guests
-              </div>
+              <span className="text-sm text-brand-900/60">Per Person</span>
 
               <Link
                 href={`/contact?package=${pkg.slug}`}

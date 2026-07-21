@@ -18,8 +18,8 @@ export default async function Home() {
     <>
       <Hero />
       <About />
-      <ExploreLocations />
       <Packages packages={packages} />
+      <ExploreLocations />
       <Activities />
       <Gallery images={images} limit={6} />
       <Testimonials testimonials={testimonials} />

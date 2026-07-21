@@ -21,7 +21,7 @@ export default function Footer() {
                 <span className="font-display text-xl font-semibold">{SITE.name}</span>
               </Link>
               <p className="mt-4 max-w-sm text-sm text-white/70">
-                {SITE.subheadline}
+                {SITE.footerDescription}
               </p>
               <div className="mt-5 flex gap-3">
                 {(["instagram", "facebook", "whatsapp"] as const).map((kind) => (
@@ -85,16 +85,18 @@ export default function Footer() {
               <ul className="mt-4 space-y-3 text-sm text-white/75">
                 <li className="flex items-start gap-2">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
-                  <span>
-                    {SITE.location}
-                    <span className="block text-xs text-white/50">Office: {SITE.address}</span>
-                  </span>
+                  <span>{SITE.address}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="h-4 w-4 shrink-0 text-gold-300" />
-                  <a href={`tel:${SITE.phone}`} className="hover:text-gold-300">
-                    {SITE.phone}
-                  </a>
+                  <span className="flex flex-col">
+                    <a href={`tel:${SITE.phone}`} className="hover:text-gold-300">
+                      {SITE.phone}
+                    </a>
+                    <a href={`tel:${SITE.phoneSecondary}`} className="hover:text-gold-300">
+                      {SITE.phoneSecondary}
+                    </a>
+                  </span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4 shrink-0 text-gold-300" />

@@ -27,7 +27,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="text-xs font-medium uppercase tracking-[0.3em] text-gold-300"
         >
-          {SITE.location}
+          {SITE.heroEyebrow}
         </motion.span>
 
         <motion.h1
@@ -47,7 +47,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-5 max-w-lg text-base text-white/75"
         >
-          {SITE.subheadline}
+          {SITE.heroSubheadline}
         </motion.p>
 
         <motion.div

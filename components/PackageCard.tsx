@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, ImagesIcon, IndianRupee, PlayCircle, Users } from "lucide-react";
+import { ArrowRight, CheckCircle2, ImagesIcon, IndianRupee, PlayCircle } from "lucide-react";
 import GlassCard from "./GlassCard";
 import type { Package } from "@/lib/data";
 
@@ -53,19 +53,14 @@ export default function PackageCard({ pkg }: { pkg: Package }) {
           ))}
         </ul>
 
-        <div className="mt-5 flex items-center justify-between border-t border-brand-900/10 pt-4">
-          <div>
-            <div className="flex items-center text-brand-950">
-              <IndianRupee className="h-4 w-4" />
-              <span className="font-display text-xl font-semibold">
-                {pkg.price.toLocaleString("en-IN")}
-              </span>
-            </div>
-            <span className="text-xs text-brand-900/60">{pkg.priceUnit}</span>
+        <div className="mt-5 border-t border-brand-900/10 pt-4">
+          <div className="flex items-center text-brand-950">
+            <IndianRupee className="h-4 w-4" />
+            <span className="font-display text-xl font-semibold">
+              {pkg.price.toLocaleString("en-IN")}
+            </span>
           </div>
-          <div className="flex items-center gap-1 text-xs text-brand-900/60">
-            <Users className="h-3.5 w-3.5" /> up to {pkg.maxGuests}
-          </div>
+          <span className="text-xs text-brand-900/60">Per Person</span>
         </div>
 
         <div className="mt-5 flex items-center gap-2">

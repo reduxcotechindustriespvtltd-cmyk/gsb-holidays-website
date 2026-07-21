@@ -1,35 +1,53 @@
 export const SITE = {
   name: "GSB Holidays",
   shortName: "GSB",
-  tagline: "Lakeside Camping & Resort",
-  headline: "Escape to the",
-  headlineAccent: "Water's Edge",
-  subheadline:
-    "Luxury villas, glamping tents and lakeside cottages, wrapped in nature, adventure and warm hospitality.",
-  location: "Pawna Lake, Lonavala, Maharashtra",
+  tagline: "Handpicked Stays Across Top Destinations",
+  heroEyebrow: "HANDPICKED STAYS ACROSS TOP DESTINATIONS",
+  headline: "Find Your",
+  headlineAccent: "Perfect Stay",
+  heroSubheadline:
+    "Discover handpicked villas, farmhouses, resorts, camping & cottages for every kind of getaway.",
+  footerDescription:
+    "Explore handpicked stays across Karjat, Lonavala, Alibag, Panvel and more — crafted for unforgettable getaways.",
   phone: "+91 84529 89850",
+  phoneSecondary: "+91 84259 35850",
   email: "gsbholidays@gmail.com",
-  address: "GSB Holidays, Mumbai, Maharashtra, India",
+  address: "Mumbai, Maharashtra, India",
   social: {
     instagram: "https://www.instagram.com/pawnalake238",
     facebook: "https://www.facebook.com/profile.php?id=61584727873937",
     whatsapp: "https://wa.me/918452989850",
   },
-  mapEmbedQuery: "Pawna Lake, Lonavala, Maharashtra",
+  mapEmbedQuery: "Mumbai, Maharashtra, India",
 };
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Packages", href: "/packages" },
   { label: "Gallery", href: "/gallery" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+];
+
+export type Destination = {
+  slug: string;
+  name: string;
+};
+
+export const DESTINATIONS: Destination[] = [
+  { slug: "lonavala", name: "Lonavala" },
+  { slug: "karjat", name: "Karjat" },
+  { slug: "panvel", name: "Panvel" },
+  { slug: "alibag", name: "Alibag" },
 ];
 
 export type Package = {
   slug: string;
   name: string;
   type: string;
+  // Optional: the live CRM's package records don't carry this field yet, so
+  // destination filtering (see app/packages/page.tsx) falls back to showing
+  // everything rather than an empty page when it's absent.
+  location?: string;
   price: number;
   priceUnit: string;
   maxGuests: number;
@@ -45,6 +63,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-royal-villa",
     name: "GSB Royal Villa",
     type: "Villa",
+    location: "lonavala",
     price: 12999,
     priceUnit: "per night",
     maxGuests: 6,
@@ -58,6 +77,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-lakeview-cottage",
     name: "GSB Lakeview Cottage",
     type: "Cottage",
+    location: "karjat",
     price: 8499,
     priceUnit: "per night",
     maxGuests: 4,
@@ -71,6 +91,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-luxury-glamping-tent",
     name: "GSB Luxury Glamping Tent",
     type: "Glamping",
+    location: "alibag",
     price: 6999,
     priceUnit: "per night",
     maxGuests: 3,
@@ -84,6 +105,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-riverside-camp-tent",
     name: "GSB Riverside Camp Tent",
     type: "Camping",
+    location: "panvel",
     price: 3499,
     priceUnit: "per night",
     maxGuests: 2,
@@ -94,6 +116,28 @@ export const PACKAGES: Package[] = [
       "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1600&auto=format&fit=crop",
   },
 ];
+
+export const PACKAGE_CATEGORIES = [
+  "Villas",
+  "Farmhouses",
+  "Resorts",
+  "Cottages",
+  "Camping",
+  "Glamping",
+] as const;
+
+const TYPE_TO_CATEGORY: Record<string, string> = {
+  Villa: "Villas",
+  Farmhouse: "Farmhouses",
+  Resort: "Resorts",
+  Cottage: "Cottages",
+  Camping: "Camping",
+  Glamping: "Glamping",
+};
+
+export function categoryForType(type: string): string {
+  return TYPE_TO_CATEGORY[type] ?? type;
+}
 
 export type Activity = {
   name: string;
@@ -183,23 +227,38 @@ export const GALLERY_IMAGES = [
   "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=1400&auto=format&fit=crop",
 ];
 
-export const EXPLORE_LOCATIONS = [
+// No real footage yet — the Videos gallery tab renders an empty state until
+// real URLs land here (or the CRM's /api/public/gallery-videos starts
+// returning them).
+export const GALLERY_VIDEOS: string[] = [];
+
+export type ExploreDestination = {
+  slug: string;
+  name: string;
+  image: string;
+  attractions: string[];
+};
+
+export const EXPLORE_DESTINATIONS: ExploreDestination[] = [
   {
-    name: "Pawna Lake Backwaters",
-    description: "Still, open water right at camp — perfect for sunrise boat rides.",
+    slug: "karjat",
+    name: "Karjat",
     image:
       "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=1400&auto=format&fit=crop",
+    attractions: ["Pali Dam", "Bhivpuri Waterfall", "Morbe Dam"],
   },
   {
-    name: "Tikona Fort Trek",
-    description: "A popular sunrise trek a short drive from the lake.",
+    slug: "alibag",
+    name: "Alibag",
     image:
       "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?q=80&w=1400&auto=format&fit=crop",
+    attractions: ["Kolaba Fort", "Alibag Beach", "Nagaon Beach", "Water Sports"],
   },
   {
-    name: "Lohagad Fort",
-    description: "A historic hill fort nearby, ideal for a half-day outing.",
+    slug: "panvel",
+    name: "Panvel",
     image:
       "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1400&auto=format&fit=crop",
+    attractions: ["Karnala Fort", "Karnala Bird Sanctuary", "Pandavkada Waterfall"],
   },
 ];

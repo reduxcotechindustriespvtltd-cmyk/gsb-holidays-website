@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-import PackageCard from "./PackageCard";
+import PackageBrowser from "./PackageBrowser";
 import Reveal from "./Reveal";
 import type { Package } from "@/lib/data";
-import { packageGridColsClass } from "@/lib/grid";
 
 export default function Packages({ packages }: { packages: Package[] }) {
   return (
@@ -12,17 +11,13 @@ export default function Packages({ packages }: { packages: Package[] }) {
       <Reveal>
         <SectionHeading
           eyebrow="Stay With Us"
-          title="Villas, Cottages, Tents & Glamping"
-          description="Every stay type is designed around the lake, with its own character and pace."
+          title="Villas • Farmhouses • Resorts • Cottages • Camping • Glamping"
+          description="A Collection of Unique Stays Crafted for Comfort, Nature & Unforgettable Moments"
         />
       </Reveal>
 
-      <div className={`mt-14 grid gap-6 sm:grid-cols-2 ${packageGridColsClass(packages.length)}`}>
-        {packages.map((pkg, i) => (
-          <Reveal key={pkg.slug} delay={i * 0.1}>
-            <PackageCard pkg={pkg} />
-          </Reveal>
-        ))}
+      <div className="mt-14">
+        <PackageBrowser packages={packages} />
       </div>
 
       <Reveal delay={0.2} className="mt-12 flex justify-center">

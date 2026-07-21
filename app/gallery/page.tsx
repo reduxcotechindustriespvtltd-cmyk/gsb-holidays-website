@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
-import Gallery from "@/components/Gallery";
+import GalleryTabs from "@/components/GalleryTabs";
 import { SITE } from "@/lib/data";
-import { getGalleryImages } from "@/lib/cms";
+import { getGalleryImages, getGalleryVideos } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: `Gallery - ${SITE.name}`,
-  description: `Photo gallery of ${SITE.name}, the lakeside camping resort at ${SITE.location}.`,
+  description: `Photo and video gallery of ${SITE.name} — handpicked villas, farmhouses, resorts, camping and cottages.`,
 };
 
 export default async function GalleryPage() {
-  const images = await getGalleryImages();
+  const [images, videos] = await Promise.all([getGalleryImages(), getGalleryVideos()]);
 
   return (
     <>
@@ -20,7 +20,7 @@ export default async function GalleryPage() {
         description="Sunrises, bonfires, water sports and everything in between."
         image="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2000&auto=format&fit=crop"
       />
-      <Gallery images={images} showHeading={false} showCta={false} />
+      <GalleryTabs images={images} videos={videos} />
     </>
   );
 }
