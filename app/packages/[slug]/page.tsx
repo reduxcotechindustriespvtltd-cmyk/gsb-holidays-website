@@ -114,9 +114,7 @@ export default async function PackageDetailPage({
             <GlassCard variant="light" className="lg:sticky lg:top-24 p-6 sm:p-8">
               <div className="flex items-baseline text-brand-950">
                 <IndianRupee className="h-5 w-5" />
-                <span className="font-display text-3xl font-semibold">
-                  {pkg.price.toLocaleString("en-IN")}
-                </span>
+                <span className="text-3xl font-bold">{pkg.price.toLocaleString("en-IN")}</span>
                 <span className="text-sm text-brand-900/60">/Per Person</span>
               </div>
 

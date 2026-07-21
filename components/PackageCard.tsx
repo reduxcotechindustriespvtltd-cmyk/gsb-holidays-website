@@ -55,9 +55,7 @@ export default function PackageCard({ pkg }: { pkg: Package }) {
 
         <div className="mt-5 flex items-baseline border-t border-brand-900/10 pt-4 text-brand-950">
           <IndianRupee className="h-4 w-4" />
-          <span className="font-display text-xl font-semibold">
-            {pkg.price.toLocaleString("en-IN")}
-          </span>
+          <span className="text-xl font-bold">{pkg.price.toLocaleString("en-IN")}</span>
           <span className="text-xs text-brand-900/60">/Per Person</span>
         </div>
 
