@@ -26,14 +26,35 @@ export default async function ThankYouPage({
     checkIn?: string;
     checkOut?: string;
     guests?: string;
+    guestsAdults?: string;
+    guestsKids?: string;
+    guestsInfants?: string;
   }>;
 }) {
-  const { id, package: packageSlug, at, name, phone, email, checkIn, checkOut, guests } =
-    await searchParams;
+  const {
+    id,
+    package: packageSlug,
+    at,
+    name,
+    phone,
+    email,
+    checkIn,
+    checkOut,
+    guests,
+    guestsAdults,
+    guestsKids,
+    guestsInfants,
+  } = await searchParams;
 
   const pkg = packageSlug ? await getPackageBySlug(packageSlug) : null;
-  const guestCount = Number(guests) > 0 ? Number(guests) : 1;
-  const subtotal = pkg ? pkg.price * guestCount : 0;
+  const adults = Number(guestsAdults) || 0;
+  const kids = Number(guestsKids) || 0;
+  const infants = Number(guestsInfants) || 0;
+  const hasBreakdown = adults + kids + infants > 0;
+  const guestCount = hasBreakdown ? adults + kids + infants : Number(guests) > 0 ? Number(guests) : 1;
+  // Infants stay free — only adults and kids count toward the per-person rate.
+  const billableGuests = hasBreakdown ? Math.max(1, adults + kids) : guestCount;
+  const subtotal = pkg ? pkg.price * billableGuests : 0;
   const total = subtotal;
 
   return (
@@ -76,18 +97,32 @@ export default async function ThankYouPage({
                 <h3 className="font-display text-lg font-semibold text-brand-950">
                   Guest Details
                 </h3>
-                <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-                  <div>
+                <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-3 text-xs sm:text-sm">
+                  <div className="col-span-2">
                     <dt className="font-medium text-brand-900/60">Full Name</dt>
-                    <dd className="font-semibold text-brand-950">{name || "—"}</dd>
+                    <dd className="truncate font-semibold text-brand-950">{name || "—"}</dd>
                   </div>
                   <div>
                     <dt className="font-medium text-brand-900/60">Phone</dt>
-                    <dd className="font-semibold text-brand-950">{phone || "—"}</dd>
+                    <dd className="truncate font-semibold text-brand-950">{phone || "—"}</dd>
                   </div>
-                  <div className="sm:col-span-2">
+                  <div>
+                    <dt className="font-medium text-brand-900/60">Guests</dt>
+                    <dd className="font-semibold text-brand-950">
+                      {hasBreakdown
+                        ? [
+                            adults > 0 ? `${adults} Adult${adults > 1 ? "s" : ""}` : null,
+                            kids > 0 ? `${kids} Kid${kids > 1 ? "s" : ""}` : null,
+                            infants > 0 ? `${infants} Infant${infants > 1 ? "s" : ""}` : null,
+                          ]
+                            .filter(Boolean)
+                            .join(", ")
+                        : guestCount}
+                    </dd>
+                  </div>
+                  <div className="col-span-2">
                     <dt className="font-medium text-brand-900/60">Email</dt>
-                    <dd className="font-semibold text-brand-950">{email || "—"}</dd>
+                    <dd className="truncate font-semibold text-brand-950">{email || "—"}</dd>
                   </div>
                   <div>
                     <dt className="font-medium text-brand-900/60">Check-in</dt>
@@ -100,10 +135,6 @@ export default async function ThankYouPage({
                     <dd className="font-semibold text-brand-950">
                       {checkOut ? formatDate(new Date(checkOut)) : "—"}
                     </dd>
-                  </div>
-                  <div>
-                    <dt className="font-medium text-brand-900/60">Guests</dt>
-                    <dd className="font-semibold text-brand-950">{guestCount}</dd>
                   </div>
                 </dl>
               </div>
@@ -134,13 +165,18 @@ export default async function ThankYouPage({
                     <div className="mt-4 space-y-2 text-sm">
                       <div className="flex items-center justify-between">
                         <span className="text-brand-900/70">
-                          {guestCount} Guest{guestCount > 1 ? "s" : ""} × ₹
+                          {billableGuests} Guest{billableGuests > 1 ? "s" : ""} × ₹
                           {pkg.price.toLocaleString("en-IN")}
                         </span>
                         <span className="font-medium text-brand-950">
                           ₹{subtotal.toLocaleString("en-IN")}
                         </span>
                       </div>
+                      {hasBreakdown && infants > 0 && (
+                        <p className="text-xs text-brand-900/50">
+                          Infants travel free and aren&apos;t included in the guest count above.
+                        </p>
+                      )}
                       <div className="flex items-center justify-between border-t border-dashed border-brand-900/15 pt-2">
                         <span className="text-brand-900/70">Subtotal</span>
                         <span className="font-medium text-brand-950">

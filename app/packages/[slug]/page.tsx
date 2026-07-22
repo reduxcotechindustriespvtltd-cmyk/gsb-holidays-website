@@ -58,7 +58,7 @@ export default async function PackageDetailPage({
             <span className="glass-strong mt-4 inline-block w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-300">
               {pkg.type}
             </span>
-            <h1 className="mt-3 font-display text-3xl font-semibold text-white sm:text-5xl">
+            <h1 className="mt-3 font-display text-2xl font-semibold text-white sm:text-5xl">
               {pkg.name}
             </h1>
           </div>

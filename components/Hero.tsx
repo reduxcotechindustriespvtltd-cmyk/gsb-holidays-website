@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import BookingBar from "./BookingBar";
 import { SITE } from "@/lib/data";
 
 export default function Hero() {
@@ -34,7 +33,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-5 font-display text-4xl font-semibold leading-tight text-white sm:text-6xl"
+          className="mt-5 font-display text-3xl font-semibold leading-tight text-white sm:text-6xl"
         >
           {SITE.headline}
           <br />
@@ -69,15 +68,6 @@ export default function Hero() {
           >
             Plan Your Stay
           </Link>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="glass-sheen glass mt-14 w-full max-w-xl rounded-2xl p-2"
-        >
-          <BookingBar />
         </motion.div>
       </div>
     </section>

@@ -18,7 +18,7 @@ const PILLARS = [
   {
     icon: HeartHandshake,
     title: "Our Vision",
-    body: "To be the most trusted name in lakeside holidays across Maharashtra, one happy guest at a time.",
+    body: "To be the most trusted name in lakeside holidays, one happy guest at a time.",
   },
 ];
 

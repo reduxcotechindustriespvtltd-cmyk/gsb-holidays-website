@@ -5,12 +5,42 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus, Users, X } from "lucide-react";
 
+export type GuestCounts = {
+  adults: number;
+  kids: number;
+  infants: number;
+};
+
+export const DEFAULT_GUESTS: GuestCounts = { adults: 2, kids: 0, infants: 0 };
+
+type Tier = {
+  key: keyof GuestCounts;
+  title: string;
+  subtitle: string;
+  min: number;
+};
+
+const TIERS: Tier[] = [
+  { key: "adults", title: "Adults", subtitle: "Ages 10+", min: 1 },
+  { key: "kids", title: "Kids", subtitle: "Ages 5-10", min: 0 },
+  { key: "infants", title: "Infants", subtitle: "Ages 0-5", min: 0 },
+];
+
+const MAX_PER_TIER = 10;
+
+export function guestSummary(value: GuestCounts) {
+  const parts: string[] = [`${value.adults} ${value.adults === 1 ? "Adult" : "Adults"}`];
+  if (value.kids > 0) parts.push(`${value.kids} ${value.kids === 1 ? "Kid" : "Kids"}`);
+  if (value.infants > 0) {
+    parts.push(`${value.infants} ${value.infants === 1 ? "Infant" : "Infants"}`);
+  }
+  return parts.join(", ");
+}
+
 type GuestSelectorProps = {
   label?: string;
-  value: number;
-  onChange: (n: number) => void;
-  min?: number;
-  max?: number;
+  value: GuestCounts;
+  onChange: (v: GuestCounts) => void;
   variant?: "dark" | "light";
 };
 
@@ -18,8 +48,6 @@ export default function GuestSelector({
   label = "Guests",
   value,
   onChange,
-  min = 1,
-  max = 10,
   variant = "dark",
 }: GuestSelectorProps) {
   const [open, setOpen] = useState(false);
@@ -34,6 +62,11 @@ export default function GuestSelector({
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [open]);
+
+  function update(key: keyof GuestCounts, delta: number, min: number) {
+    const next = Math.max(min, Math.min(MAX_PER_TIER, value[key] + delta));
+    onChange({ ...value, [key]: next });
+  }
 
   return (
     <>
@@ -55,9 +88,7 @@ export default function GuestSelector({
           >
             {label}
           </span>
-          <span className="text-sm">
-            {value} {value === 1 ? "Adult" : "Adults"}
-          </span>
+          <span className="truncate text-sm">{guestSummary(value)}</span>
         </span>
       </button>
 
@@ -105,52 +136,58 @@ export default function GuestSelector({
                     </button>
                   </div>
 
-                  <div className="mt-5 flex items-center justify-between">
-                    <div>
-                      <p
-                        className={`text-sm font-semibold ${isDark ? "text-white" : "text-brand-950"}`}
-                      >
-                        Adults
-                      </p>
-                      <p className={`text-xs ${isDark ? "text-white/50" : "text-brand-900/50"}`}>
-                        Ages 13+
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <button
-                        type="button"
-                        onClick={() => onChange(Math.max(min, value - 1))}
-                        disabled={value <= min}
-                        aria-label="Decrease adults"
-                        className={`flex h-9 w-9 items-center justify-center rounded-full border transition disabled:cursor-not-allowed disabled:opacity-30 ${
-                          isDark
-                            ? "border-white/25 text-white hover:bg-white/10"
-                            : "border-brand-900/25 text-brand-950 hover:bg-brand-900/10"
-                        }`}
-                      >
-                        <Minus className="h-4 w-4" />
-                      </button>
-                      <span
-                        className={`w-5 text-center text-base font-semibold ${
-                          isDark ? "text-white" : "text-brand-950"
-                        }`}
-                      >
-                        {value}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => onChange(Math.min(max, value + 1))}
-                        disabled={value >= max}
-                        aria-label="Increase adults"
-                        className={`flex h-9 w-9 items-center justify-center rounded-full border transition disabled:cursor-not-allowed disabled:opacity-30 ${
-                          isDark
-                            ? "border-white/25 text-white hover:bg-white/10"
-                            : "border-brand-900/25 text-brand-950 hover:bg-brand-900/10"
-                        }`}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </button>
-                    </div>
+                  <div className="mt-5 space-y-5">
+                    {TIERS.map((tier) => (
+                      <div key={tier.key} className="flex items-center justify-between">
+                        <div>
+                          <p
+                            className={`text-sm font-semibold ${
+                              isDark ? "text-white" : "text-brand-950"
+                            }`}
+                          >
+                            {tier.title}
+                          </p>
+                          <p className={`text-xs ${isDark ? "text-white/50" : "text-brand-900/50"}`}>
+                            {tier.subtitle}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <button
+                            type="button"
+                            onClick={() => update(tier.key, -1, tier.min)}
+                            disabled={value[tier.key] <= tier.min}
+                            aria-label={`Decrease ${tier.title.toLowerCase()}`}
+                            className={`flex h-9 w-9 items-center justify-center rounded-full border transition disabled:cursor-not-allowed disabled:opacity-30 ${
+                              isDark
+                                ? "border-white/25 text-white hover:bg-white/10"
+                                : "border-brand-900/25 text-brand-950 hover:bg-brand-900/10"
+                            }`}
+                          >
+                            <Minus className="h-4 w-4" />
+                          </button>
+                          <span
+                            className={`w-5 text-center text-base font-semibold ${
+                              isDark ? "text-white" : "text-brand-950"
+                            }`}
+                          >
+                            {value[tier.key]}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => update(tier.key, 1, tier.min)}
+                            disabled={value[tier.key] >= MAX_PER_TIER}
+                            aria-label={`Increase ${tier.title.toLowerCase()}`}
+                            className={`flex h-9 w-9 items-center justify-center rounded-full border transition disabled:cursor-not-allowed disabled:opacity-30 ${
+                              isDark
+                                ? "border-white/25 text-white hover:bg-white/10"
+                                : "border-brand-900/25 text-brand-950 hover:bg-brand-900/10"
+                            }`}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
                   <button

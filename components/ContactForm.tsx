@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Send } from "lucide-react";
 import DatePicker from "./DatePicker";
-import GuestSelector from "./GuestSelector";
+import GuestSelector, { DEFAULT_GUESTS, type GuestCounts } from "./GuestSelector";
 import { addDays, toISODate } from "@/lib/date";
 import { validateInquiry, type InquiryErrors } from "@/lib/validation";
 import type { Package } from "@/lib/data";
@@ -22,8 +22,16 @@ export default function ContactForm({
   const [status, setStatus] = useState<Status>("idle");
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
-  const [guests, setGuests] = useState(2);
+  const [guests, setGuests] = useState<GuestCounts>(DEFAULT_GUESTS);
   const [errors, setErrors] = useState<InquiryErrors>({});
+
+  function handleNameInput(e: ChangeEvent<HTMLInputElement>) {
+    e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+  }
+
+  function handlePhoneInput(e: ChangeEvent<HTMLInputElement>) {
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,11 +40,15 @@ export default function ContactForm({
     // resume after the `await` below, so reading it later throws.
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
+    const totalGuests = guests.adults + guests.kids + guests.infants;
     const payload = {
       ...Object.fromEntries(form.entries()),
       checkIn: checkIn ? toISODate(checkIn) : "",
       checkOut: checkOut ? toISODate(checkOut) : "",
-      guests: String(guests),
+      guests: String(totalGuests),
+      guestsAdults: String(guests.adults),
+      guestsKids: String(guests.kids),
+      guestsInfants: String(guests.infants),
     } as Record<string, string>;
 
     const fieldErrors = validateInquiry(payload);
@@ -69,6 +81,9 @@ export default function ContactForm({
         checkIn: payload.checkIn,
         checkOut: payload.checkOut,
         guests: payload.guests,
+        guestsAdults: payload.guestsAdults,
+        guestsKids: payload.guestsKids,
+        guestsInfants: payload.guestsInfants,
       });
       router.push(`/contact/thank-you?${params.toString()}`);
     } catch (error) {
@@ -85,6 +100,7 @@ export default function ContactForm({
           name="name"
           type="text"
           placeholder="Your name"
+          onChange={handleNameInput}
           className="w-full rounded-xl border border-brand-900/15 bg-white/70 px-4 py-2.5 text-sm text-brand-950 outline-none transition focus:border-gold-500"
         />
         {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
@@ -97,6 +113,7 @@ export default function ContactForm({
           inputMode="numeric"
           maxLength={10}
           placeholder="10-digit mobile number"
+          onChange={handlePhoneInput}
           className="w-full rounded-xl border border-brand-900/15 bg-white/70 px-4 py-2.5 text-sm text-brand-950 outline-none transition focus:border-gold-500"
         />
         {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}

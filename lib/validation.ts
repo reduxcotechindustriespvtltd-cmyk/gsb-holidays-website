@@ -6,6 +6,10 @@ export function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
+export function isValidName(name: string): boolean {
+  return /^[A-Za-z][A-Za-z\s]*$/.test(name.trim());
+}
+
 export type InquiryFields = {
   name?: string;
   phone?: string;
@@ -21,6 +25,8 @@ export function validateInquiry(fields: InquiryFields): InquiryErrors {
 
   if (!fields.name?.trim()) {
     errors.name = "Please enter your name.";
+  } else if (!isValidName(fields.name)) {
+    errors.name = "Name can only contain letters and spaces.";
   }
   if (!fields.phone?.trim()) {
     errors.phone = "Please enter your mobile number.";

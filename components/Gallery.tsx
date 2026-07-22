@@ -32,7 +32,11 @@ export default function Gallery({
   );
 
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-14 sm:py-20 lg:py-24">
+    <section
+      className={`relative mx-auto max-w-6xl px-6 ${
+        showHeading ? "py-14 sm:py-20 lg:py-24" : "pt-6 pb-14 sm:pb-20 lg:pb-24"
+      }`}
+    >
       {showHeading && (
         <Reveal>
           <SectionHeading
@@ -43,7 +47,9 @@ export default function Gallery({
         </Reveal>
       )}
 
-      <div className="mt-14 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+      <div
+        className={`${showHeading ? "mt-14" : ""} columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4`}
+      >
         {images.map((src, i) => (
           <Reveal key={src} delay={(i % 3) * 0.08} className="break-inside-avoid">
             <button

@@ -28,17 +28,17 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           <SectionHeading eyebrow="Testimonials" title="What Our Guests Say" light />
         </Reveal>
 
-        <div className="mt-12 flex items-center justify-center gap-4">
+        <div className="mt-14 flex items-center justify-center gap-4">
           <button
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous testimonial"
-            className="glass-sheen glass flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white transition hover:text-gold-300"
+            className="glass-sheen glass hidden h-11 w-11 shrink-0 items-center justify-center rounded-full text-white transition hover:text-gold-300 sm:flex"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
 
-          <div className="relative min-h-[240px] flex-1">
+          <div className="relative min-h-[240px] w-full flex-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={testimonial.name}
@@ -46,10 +46,10 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -24 }}
                 transition={{ duration: 0.35 }}
-                className="glass-sheen glass-strong rounded-3xl p-8 text-center"
+                className="glass-sheen glass-strong rounded-3xl p-6 text-center sm:p-8"
               >
                 <Quote className="mx-auto h-7 w-7 text-gold-300" />
-                <p className="mt-4 text-base leading-relaxed text-white/90 sm:text-lg">
+                <p className="mt-4 text-sm leading-relaxed text-white/90 sm:text-lg">
                   “{testimonial.quote}”
                 </p>
                 <div className="mt-5 flex justify-center gap-1">
@@ -76,9 +76,28 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             type="button"
             onClick={() => go(1)}
             aria-label="Next testimonial"
-            className="glass-sheen glass flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white transition hover:text-gold-300"
+            className="glass-sheen glass hidden h-11 w-11 shrink-0 items-center justify-center rounded-full text-white transition hover:text-gold-300 sm:flex"
           >
             <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="mt-4 flex justify-center gap-4 sm:hidden">
+          <button
+            type="button"
+            onClick={() => go(-1)}
+            aria-label="Previous testimonial"
+            className="glass-sheen glass flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:text-gold-300"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => go(1)}
+            aria-label="Next testimonial"
+            className="glass-sheen glass flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:text-gold-300"
+          >
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
 

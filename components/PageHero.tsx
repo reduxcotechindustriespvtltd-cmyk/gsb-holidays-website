@@ -19,7 +19,7 @@ export default function PageHero({
         <span className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-300">
           {eyebrow}
         </span>
-        <h1 className="mt-3 font-display text-3xl font-semibold text-white sm:text-5xl">
+        <h1 className="mt-3 font-display text-2xl font-semibold text-white sm:text-5xl">
           {title}
         </h1>
         {description && (
