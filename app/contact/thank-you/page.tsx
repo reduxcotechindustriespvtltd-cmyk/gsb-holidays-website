@@ -163,19 +163,49 @@ export default async function ThankYouPage({
                       Amount Summary
                     </h4>
                     <div className="mt-4 space-y-2 text-sm">
-                      <div className="flex items-center justify-between">
-                        <span className="text-brand-900/70">
-                          {billableGuests} Guest{billableGuests > 1 ? "s" : ""} × ₹
-                          {pkg.price.toLocaleString("en-IN")}
-                        </span>
-                        <span className="font-medium text-brand-950">
-                          ₹{subtotal.toLocaleString("en-IN")}
-                        </span>
-                      </div>
-                      {hasBreakdown && infants > 0 && (
-                        <p className="text-xs text-brand-900/50">
-                          Infants travel free and aren&apos;t included in the guest count above.
-                        </p>
+                      {hasBreakdown ? (
+                        <>
+                          {adults > 0 && (
+                            <div className="flex items-center justify-between">
+                              <span className="text-brand-900/70">
+                                {adults} Adult{adults > 1 ? "s" : ""} × ₹
+                                {pkg.price.toLocaleString("en-IN")}
+                              </span>
+                              <span className="font-medium text-brand-950">
+                                ₹{(adults * pkg.price).toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          )}
+                          {kids > 0 && (
+                            <div className="flex items-center justify-between">
+                              <span className="text-brand-900/70">
+                                {kids} Kid{kids > 1 ? "s" : ""} × ₹
+                                {pkg.price.toLocaleString("en-IN")}
+                              </span>
+                              <span className="font-medium text-brand-950">
+                                ₹{(kids * pkg.price).toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          )}
+                          {infants > 0 && (
+                            <div className="flex items-center justify-between">
+                              <span className="text-brand-900/70">
+                                {infants} Infant{infants > 1 ? "s" : ""}
+                              </span>
+                              <span className="font-medium text-brand-700">Free</span>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <span className="text-brand-900/70">
+                            {billableGuests} Guest{billableGuests > 1 ? "s" : ""} × ₹
+                            {pkg.price.toLocaleString("en-IN")}
+                          </span>
+                          <span className="font-medium text-brand-950">
+                            ₹{subtotal.toLocaleString("en-IN")}
+                          </span>
+                        </div>
                       )}
                       <div className="flex items-center justify-between border-t border-dashed border-brand-900/15 pt-2">
                         <span className="text-brand-900/70">Subtotal</span>

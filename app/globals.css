@@ -133,3 +133,7 @@ body {
   background: var(--gold-400);
   color: var(--brand-950);
 }
+
+*:focus {
+  outline: none;
+}
