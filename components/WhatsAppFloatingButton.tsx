@@ -12,13 +12,12 @@ export default function WhatsAppFloatingButton() {
       aria-label="Chat with us on WhatsApp"
       className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-black/20 transition hover:scale-105"
     >
-      <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366]/50" />
       <Image
         src="/whatsapp-icon.png"
         alt=""
         width={512}
         height={512}
-        className="relative h-14 w-14"
+        className="h-14 w-14"
       />
     </a>
   );
