@@ -58,7 +58,7 @@ export default function PackageHeroSlideshow({
             type="button"
             onClick={goPrev}
             aria-label="Previous photo"
-            className="glass-strong absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:text-gold-300 sm:left-6 sm:h-11 sm:w-11"
+            className="glass-strong !absolute left-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:text-gold-300 sm:left-6 sm:h-11 sm:w-11"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -66,7 +66,7 @@ export default function PackageHeroSlideshow({
             type="button"
             onClick={goNext}
             aria-label="Next photo"
-            className="glass-strong absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:text-gold-300 sm:right-6 sm:h-11 sm:w-11"
+            className="glass-strong !absolute right-4 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:text-gold-300 sm:right-6 sm:h-11 sm:w-11"
           >
             <ChevronRight className="h-5 w-5" />
           </button>

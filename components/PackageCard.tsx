@@ -1,23 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ImagesIcon, IndianRupee, PlayCircle } from "lucide-react";
 import GlassCard from "./GlassCard";
+import PackageCardImage from "./PackageCardImage";
 import type { Package } from "@/lib/data";
 
 export default function PackageCard({ pkg }: { pkg: Package }) {
   const photoCount = 1 + (pkg.images?.length ?? 0);
+  const images = [pkg.image, ...(pkg.images ?? [])];
 
   return (
     <GlassCard variant="light" className="flex h-full flex-col">
       <Link href={`/packages/${pkg.slug}`} className="relative block h-52 w-full">
-        <Image
-          src={pkg.image}
-          alt={pkg.name}
-          fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
-        />
-        <span className="glass-strong absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-300">
+        <PackageCardImage images={images} alt={pkg.name} />
+        <span className="glass-strong !absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gold-300">
           {pkg.type}
         </span>
         <div className="absolute bottom-3 right-3 flex items-center gap-2">

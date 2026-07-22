@@ -32,7 +32,7 @@ export default function ExploreLocations() {
                   className="object-cover transition duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-950/25 to-transparent" />
-                <div className="glass-light absolute inset-x-4 bottom-4 rounded-2xl p-4">
+                <div className="glass-light !absolute inset-x-4 bottom-4 rounded-2xl p-4">
                   <h3 className="font-display text-lg font-semibold text-brand-950">
                     {dest.name}
                   </h3>
