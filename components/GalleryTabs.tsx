@@ -17,7 +17,7 @@ export default function GalleryTabs({
   const [tab, setTab] = useState<Tab>("images");
 
   return (
-    <div className="pt-10 sm:pt-14">
+    <div className="pb-10 pt-5 sm:pb-14">
       <div className="mx-auto flex w-fit gap-2 rounded-full border border-brand-900/15 bg-white/70 p-1">
         {(
           [
