@@ -34,7 +34,7 @@ export default function Gallery({
   return (
     <section
       className={`relative mx-auto max-w-6xl px-6 ${
-        showHeading ? "py-14 sm:py-20 lg:py-24" : "pt-12 sm:pt-16 pb-14 sm:pb-20 lg:pb-24"
+        showHeading ? "py-14 sm:py-20 lg:py-24" : "pt-6 pb-14 sm:pb-20 lg:pb-24"
       }`}
     >
       {showHeading && (
