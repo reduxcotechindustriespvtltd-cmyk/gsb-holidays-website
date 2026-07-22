@@ -17,7 +17,7 @@ export default function GalleryTabs({
   const [tab, setTab] = useState<Tab>("images");
 
   return (
-    <div className="pb-10 pt-5 sm:pb-14">
+    <div className="mx-auto max-w-6xl px-6 py-14 sm:py-20 lg:py-24">
       <div className="mx-auto flex w-fit gap-2 rounded-full border border-brand-900/15 bg-white/70 p-1">
         {(
           [
@@ -43,7 +43,7 @@ export default function GalleryTabs({
       {tab === "images" ? (
         <Gallery images={images} showHeading={false} showCta={false} />
       ) : (
-        <section className="relative mx-auto max-w-6xl px-6 py-14 sm:py-20 lg:py-24">
+        <div className="mt-14">
           {videos.length === 0 ? (
             <div className="mx-auto flex max-w-md flex-col items-center gap-3 py-10 sm:py-16 text-center">
               <Video className="h-8 w-8 text-brand-900/40" />
@@ -58,7 +58,7 @@ export default function GalleryTabs({
               ))}
             </div>
           )}
-        </section>
+        </div>
       )}
     </div>
   );
