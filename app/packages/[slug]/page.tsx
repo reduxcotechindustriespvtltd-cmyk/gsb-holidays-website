@@ -40,6 +40,9 @@ export default async function PackageDetailPage({
   if (!pkg) notFound();
 
   const galleryImages = [pkg.image, ...(pkg.images ?? [])];
+  const galleryVideos = [pkg.video, ...(pkg.videos ?? [])].filter(
+    (url): url is string => Boolean(url),
+  );
 
   return (
     <>
@@ -106,11 +109,19 @@ export default async function PackageDetailPage({
                 <PackageGallery images={galleryImages} alt={pkg.name} />
               </div>
 
-              {pkg.video && (
+              {galleryVideos.length > 0 && (
                 <div className="mt-10">
-                  <h3 className="font-display text-lg font-semibold text-brand-950">Video</h3>
-                  <div className="mt-4">
-                    <VideoEmbed url={pkg.video} />
+                  <h3 className="font-display text-lg font-semibold text-brand-950">
+                    {galleryVideos.length > 1 ? "Videos" : "Video"}
+                  </h3>
+                  <div
+                    className={
+                      galleryVideos.length > 1 ? "mt-4 grid gap-6 sm:grid-cols-2" : "mt-4"
+                    }
+                  >
+                    {galleryVideos.map((url) => (
+                      <VideoEmbed key={url} url={url} />
+                    ))}
                   </div>
                 </div>
               )}

@@ -58,6 +58,7 @@ export type Package = {
   image: string;
   images?: string[];
   video?: string | null;
+  videos?: string[];
 };
 
 export const PACKAGES: Package[] = [
