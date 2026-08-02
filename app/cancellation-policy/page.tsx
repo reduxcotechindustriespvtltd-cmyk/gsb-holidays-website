@@ -2,28 +2,91 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
+import { LegalSections, type LegalSection } from "@/lib/richText";
 
 export const metadata: Metadata = {
   title: `Cancellation Policy - ${SITE.name}`,
   description: `Cancellation and refund policy for ${SITE.name} bookings.`,
 };
 
-const SECTIONS = [
+const SECTIONS: LegalSection[] = [
   {
-    title: "Cancellations by Guest",
-    body: "Cancellations made 7+ days before check-in receive a full refund minus processing fees. Cancellations within 3-6 days receive a 50% refund. Cancellations within 48 hours of check-in are non-refundable.",
+    title: "Guest Cancellations",
+    blocks: [
+      {
+        type: "ul",
+        items: [
+          "**30 days or more before the check-in date:** Guests are eligible for a **100% refund** of the advance booking amount.",
+          "**20 to 29 days before the check-in date:** Guests are eligible for a **50% refund** of the advance booking amount.",
+          "**15 to 19 days before the check-in date:** Guests are eligible for a **25% refund** of the advance booking amount.",
+          "**7 to 14 days before the check-in date:** Guests are eligible for a **15% refund** of the advance booking amount.",
+          "**Less than 7 days before the check-in date:** **No refund** will be provided. The advance booking amount will be non-refundable.",
+        ],
+      },
+    ],
   },
   {
-    title: "Rescheduling",
-    body: "Bookings can be rescheduled once, free of charge, if requested at least 3 days before the original check-in date, subject to availability.",
+    title: "Refunds",
+    blocks: [
+      {
+        type: "p",
+        text: "Approved refunds will be processed within **7 to 10 business days** using the original payment method.",
+      },
+    ],
   },
   {
-    title: "No-Shows",
-    body: "Guests who do not arrive on the scheduled check-in date without prior notice will not be eligible for a refund.",
+    title: "Booking Modifications",
+    blocks: [
+      {
+        type: "p",
+        text: "Any changes to the booking date, number of guests, or accommodation type are subject to availability. Additional charges may apply.",
+      },
+    ],
+  },
+  {
+    title: "No-Show",
+    blocks: [
+      {
+        type: "p",
+        text: "Guests who fail to arrive on the scheduled check-in date without prior notice will not be eligible for any refund.",
+      },
+    ],
+  },
+  {
+    title: "Early Check-Out",
+    blocks: [
+      {
+        type: "p",
+        text: "Guests who check out before their scheduled departure date will not be eligible for any refund for the unused portion of their stay.",
+      },
+    ],
+  },
+  {
+    title: "Force Majeure",
+    blocks: [
+      {
+        type: "p",
+        text: "GSB Holidays shall not be held responsible for cancellations or interruptions caused by natural disasters, extreme weather conditions, government restrictions, pandemics, road closures, or any other circumstances beyond our control. In such cases, **rescheduling may be offered or a refund may be provided depending on the situation and management decision.**",
+      },
+    ],
   },
   {
     title: "Cancellations by GSB Holidays",
-    body: "In the rare event we need to cancel a confirmed booking due to unforeseen circumstances, guests will receive a full refund or the option to reschedule at no extra cost.",
+    blocks: [
+      {
+        type: "p",
+        text: "If GSB Holidays cancels a confirmed booking due to unforeseen or unavoidable circumstances, the guest will receive a **100% refund of the amount paid, with no deductions.**",
+      },
+    ],
+  },
+  {
+    title: "Policy Updates",
+    blocks: [
+      {
+        type: "p",
+        text: "GSB Holidays reserves the right to modify or update this Cancellation Policy at any time. However, the policy in effect at the time of booking will apply to that booking.",
+      },
+    ],
   },
 ];
 
@@ -32,22 +95,13 @@ export default function CancellationPolicyPage() {
     <>
       <PageHero
         eyebrow="Legal"
-        title="Cancellation & Refund Policy"
-        description={`Our policy on cancellations, rescheduling and refunds at ${SITE.name}.`}
+        title="Cancellation Policy"
+        description={`Our policy on cancellations, refunds and booking changes at ${SITE.name}.`}
         image="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2000&auto=format&fit=crop"
       />
       <section className="mx-auto max-w-3xl px-6 py-12 sm:py-16 lg:py-20">
         <GlassCard variant="light" className="space-y-8 p-8 sm:p-10" hoverGlow={false}>
-          {SECTIONS.map((section) => (
-            <div key={section.title}>
-              <h2 className="font-display text-lg font-semibold text-brand-950">
-                {section.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-brand-900/75">
-                {section.body}
-              </p>
-            </div>
-          ))}
+          <LegalSections sections={SECTIONS} />
         </GlassCard>
       </section>
     </>

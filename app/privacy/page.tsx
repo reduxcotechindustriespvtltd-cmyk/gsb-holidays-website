@@ -2,28 +2,88 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
+import { LegalSections, type LegalSection } from "@/lib/richText";
 
 export const metadata: Metadata = {
   title: `Privacy Policy - ${SITE.name}`,
   description: `Privacy policy explaining how ${SITE.name} collects and uses your information.`,
 };
 
-const SECTIONS = [
+const INTRO = `At ${SITE.name}, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect and use your information when you visit our website, make an enquiry, or book our services.`;
+
+const SECTIONS: LegalSection[] = [
   {
     title: "Information We Collect",
-    body: "We collect personal details (name, email, phone, address) that you provide when making an inquiry or booking, along with stay preferences and payment details for processing bookings.",
+    blocks: [
+      { type: "p", text: "We may collect:" },
+      {
+        type: "ul",
+        items: [
+          "Full Name",
+          "Email Address",
+          "Phone Number",
+          "Booking Details",
+          "Travel & Stay Preferences",
+          "Payment Information (processed securely through authorized payment providers)",
+        ],
+      },
+    ],
   },
   {
     title: "How We Use Your Information",
-    body: "Your information is used to confirm bookings, communicate about your stay, and improve our services. We do not sell your personal information to third parties.",
+    blocks: [
+      { type: "p", text: "Your information is used to:" },
+      {
+        type: "ul",
+        items: [
+          "Process and confirm your bookings.",
+          "Contact you regarding enquiries and reservations.",
+          "Provide customer support.",
+          "Improve our services and website experience.",
+          "Send booking confirmations and important updates.",
+        ],
+      },
+      {
+        type: "p",
+        text: "We do not sell, rent, or share your personal information with third parties for marketing purposes.",
+      },
+    ],
+  },
+  {
+    title: "Cookies",
+    blocks: [
+      {
+        type: "p",
+        text: "Our website may use cookies to improve your browsing experience, analyze website traffic, and enhance our services.",
+      },
+    ],
   },
   {
     title: "Data Security",
-    body: "We take reasonable technical and organizational measures to protect your data from unauthorized access, loss, or misuse.",
+    blocks: [
+      {
+        type: "p",
+        text: "We take appropriate security measures to protect your personal information from unauthorized access, misuse, or disclosure.",
+      },
+    ],
+  },
+  {
+    title: "Updates to This Policy",
+    blocks: [
+      {
+        type: "p",
+        text: `${SITE.name} may update this Privacy Policy from time to time. Any changes will be posted on this page.`,
+      },
+    ],
   },
   {
     title: "Contact Us",
-    body: `For any privacy-related concerns, please contact us at ${SITE.email}.`,
+    blocks: [
+      {
+        type: "p",
+        text: `${SITE.name}\nEmail: ${SITE.email}\nPhone: ${SITE.phone}`,
+      },
+    ],
   },
 ];
 
@@ -38,16 +98,8 @@ export default function PrivacyPage() {
       />
       <section className="mx-auto max-w-3xl px-6 py-12 sm:py-16 lg:py-20">
         <GlassCard variant="light" className="space-y-8 p-8 sm:p-10" hoverGlow={false}>
-          {SECTIONS.map((section) => (
-            <div key={section.title}>
-              <h2 className="font-display text-lg font-semibold text-brand-950">
-                {section.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-brand-900/75">
-                {section.body}
-              </p>
-            </div>
-          ))}
+          <p className="text-sm leading-relaxed text-brand-900/75">{INTRO}</p>
+          <LegalSections sections={SECTIONS} />
         </GlassCard>
       </section>
     </>

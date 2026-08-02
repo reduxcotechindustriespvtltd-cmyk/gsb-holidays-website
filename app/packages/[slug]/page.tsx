@@ -81,17 +81,24 @@ export default async function PackageDetailPage({
                   <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
                     What&apos;s included
                   </h3>
-                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {pkg.amenities.map((amenity) => (
-                      <li
-                        key={amenity}
-                        className="flex items-center gap-2 text-sm text-brand-900/80"
-                      >
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-brand-700" />
-                        {amenity}
-                      </li>
+                  <div className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                    {[
+                      pkg.amenities.slice(0, Math.ceil(pkg.amenities.length / 2)),
+                      pkg.amenities.slice(Math.ceil(pkg.amenities.length / 2)),
+                    ].map((column, columnIndex) => (
+                      <ul key={columnIndex} className="space-y-3">
+                        {column.map((amenity) => (
+                          <li
+                            key={amenity}
+                            className="flex items-center gap-2 text-sm text-brand-900/80"
+                          >
+                            <CheckCircle2 className="h-4 w-4 shrink-0 text-brand-700" />
+                            {amenity}
+                          </li>
+                        ))}
+                      </ul>
                     ))}
-                  </ul>
+                  </div>
                 </>
               )}
 
@@ -117,6 +124,29 @@ export default async function PackageDetailPage({
                 <span className="text-3xl font-bold">{pkg.price.toLocaleString("en-IN")}</span>
                 <span className="text-sm text-brand-900/60">/Per Person</span>
               </div>
+
+              <dl className="mt-4 space-y-1.5 border-t border-brand-900/10 pt-4 text-xs">
+                <div className="flex items-center justify-between">
+                  <dt className="text-brand-900/60">Adults</dt>
+                  <dd className="font-medium text-brand-900/80">
+                    ₹{pkg.price.toLocaleString("en-IN")}/person
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between">
+                  <dt className="text-brand-900/60">Kids (5–10 yrs)</dt>
+                  <dd className="font-medium text-brand-900/80">
+                    {pkg.priceKid > 0 ? `₹${pkg.priceKid.toLocaleString("en-IN")}/person` : "Free"}
+                  </dd>
+                </div>
+                <div className="flex items-center justify-between">
+                  <dt className="text-brand-900/60">Infants (0–5 yrs)</dt>
+                  <dd className="font-medium text-brand-700">
+                    {pkg.priceInfant > 0
+                      ? `₹${pkg.priceInfant.toLocaleString("en-IN")}/person`
+                      : "Free"}
+                  </dd>
+                </div>
+              </dl>
 
               <Link
                 href={`/contact?package=${pkg.slug}`}

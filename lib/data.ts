@@ -49,6 +49,8 @@ export type Package = {
   // everything rather than an empty page when it's absent.
   location?: string;
   price: number;
+  priceKid: number;
+  priceInfant: number;
   priceUnit: string;
   maxGuests: number;
   description: string;
@@ -65,6 +67,8 @@ export const PACKAGES: Package[] = [
     type: "Villa",
     location: "lonavala",
     price: 12999,
+    priceKid: 12999,
+    priceInfant: 0,
     priceUnit: "per night",
     maxGuests: 6,
     description:
@@ -79,6 +83,8 @@ export const PACKAGES: Package[] = [
     type: "Cottage",
     location: "karjat",
     price: 8499,
+    priceKid: 8499,
+    priceInfant: 0,
     priceUnit: "per night",
     maxGuests: 4,
     description:
@@ -93,6 +99,8 @@ export const PACKAGES: Package[] = [
     type: "Glamping",
     location: "alibag",
     price: 6999,
+    priceKid: 6999,
+    priceInfant: 0,
     priceUnit: "per night",
     maxGuests: 3,
     description:
@@ -107,6 +115,8 @@ export const PACKAGES: Package[] = [
     type: "Camping",
     location: "panvel",
     price: 3499,
+    priceKid: 3499,
+    priceInfant: 0,
     priceUnit: "per night",
     maxGuests: 2,
     description:

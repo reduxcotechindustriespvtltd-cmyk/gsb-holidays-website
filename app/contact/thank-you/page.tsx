@@ -52,9 +52,15 @@ export default async function ThankYouPage({
   const infants = Number(guestsInfants) || 0;
   const hasBreakdown = adults + kids + infants > 0;
   const guestCount = hasBreakdown ? adults + kids + infants : Number(guests) > 0 ? Number(guests) : 1;
-  // Infants stay free — only adults and kids count toward the per-person rate.
   const billableGuests = hasBreakdown ? Math.max(1, adults + kids) : guestCount;
-  const subtotal = pkg ? pkg.price * billableGuests : 0;
+  const adultCost = pkg ? adults * pkg.price : 0;
+  const kidCost = pkg ? kids * pkg.priceKid : 0;
+  const infantCost = pkg ? infants * pkg.priceInfant : 0;
+  const subtotal = pkg
+    ? hasBreakdown
+      ? adultCost + kidCost + infantCost
+      : pkg.price * billableGuests
+    : 0;
   const total = subtotal;
 
   return (
@@ -179,11 +185,18 @@ export default async function ThankYouPage({
                           {kids > 0 && (
                             <div className="flex items-center justify-between">
                               <span className="text-brand-900/70">
-                                {kids} Kid{kids > 1 ? "s" : ""} × ₹
-                                {pkg.price.toLocaleString("en-IN")}
+                                {kids} Kid{kids > 1 ? "s" : ""}
+                                {pkg.priceKid > 0 &&
+                                  ` × ₹${pkg.priceKid.toLocaleString("en-IN")}`}
                               </span>
-                              <span className="font-medium text-brand-950">
-                                ₹{(kids * pkg.price).toLocaleString("en-IN")}
+                              <span
+                                className={
+                                  pkg.priceKid > 0
+                                    ? "font-medium text-brand-950"
+                                    : "font-medium text-brand-700"
+                                }
+                              >
+                                {pkg.priceKid > 0 ? `₹${kidCost.toLocaleString("en-IN")}` : "Free"}
                               </span>
                             </div>
                           )}
@@ -191,8 +204,20 @@ export default async function ThankYouPage({
                             <div className="flex items-center justify-between">
                               <span className="text-brand-900/70">
                                 {infants} Infant{infants > 1 ? "s" : ""}
+                                {pkg.priceInfant > 0 &&
+                                  ` × ₹${pkg.priceInfant.toLocaleString("en-IN")}`}
                               </span>
-                              <span className="font-medium text-brand-700">Free</span>
+                              <span
+                                className={
+                                  pkg.priceInfant > 0
+                                    ? "font-medium text-brand-950"
+                                    : "font-medium text-brand-700"
+                                }
+                              >
+                                {pkg.priceInfant > 0
+                                  ? `₹${infantCost.toLocaleString("en-IN")}`
+                                  : "Free"}
+                              </span>
                             </div>
                           )}
                         </>
