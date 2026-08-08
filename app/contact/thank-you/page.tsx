@@ -88,7 +88,7 @@ export default async function ThankYouPage({
 
               <dl className="mt-8 grid gap-4 rounded-2xl border border-brand-900/10 bg-white/60 p-6 text-left text-sm">
                 <div className="flex items-center justify-between gap-4">
-                  <dt className="font-medium text-brand-900/60">Inquiry ID</dt>
+                  <dt className="font-medium text-brand-900/60">Invoice Number</dt>
                   <dd className="font-semibold text-brand-950">{id}</dd>
                 </div>
                 <div className="flex items-center justify-between gap-4">

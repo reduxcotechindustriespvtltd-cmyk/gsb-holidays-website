@@ -72,7 +72,7 @@ export default function ContactForm({
       }
 
       const params = new URLSearchParams({
-        id: data.inquiryId,
+        id: data.invoiceNumber,
         package: payload.package,
         at: data.submittedAt,
         name: payload.name,

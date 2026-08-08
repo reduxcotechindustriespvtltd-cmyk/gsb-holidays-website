@@ -105,6 +105,19 @@ export default async function PackageDetailPage({
                 </>
               )}
 
+              {pkg.extraTitle && (
+                <>
+                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
+                    {pkg.extraTitle}
+                  </h3>
+                  {pkg.extraContent && (
+                    <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-brand-900/75">
+                      {pkg.extraContent}
+                    </p>
+                  )}
+                </>
+              )}
+
               <div className="mt-10">
                 <PackageGallery images={galleryImages} alt={pkg.name} />
               </div>
@@ -157,7 +170,30 @@ export default async function PackageDetailPage({
                       : "Free"}
                   </dd>
                 </div>
+                <div className="flex items-center justify-between">
+                  <dt className="text-brand-900/60">Max Guests</dt>
+                  <dd className="font-medium text-brand-900/80">{pkg.maxGuests}</dd>
+                </div>
               </dl>
+
+              {pkg.note && pkg.note.length > 0 && (
+                <div className="mt-4 border-t border-brand-900/10 pt-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-900/60">
+                    Note
+                  </p>
+                  <ul className="mt-2 space-y-1.5">
+                    {pkg.note.map((line) => (
+                      <li
+                        key={line}
+                        className="flex items-start gap-2 text-xs text-brand-900/75"
+                      >
+                        <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-brand-700" />
+                        {line}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <Link
                 href={`/contact?package=${pkg.slug}`}

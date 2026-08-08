@@ -34,12 +34,18 @@ function sleep(ms: number) {
 // times with backoff — a single blip on the CRM shouldn't silently drop a
 // real inquiry. A 401 (bad/missing API key) is a config problem, not a
 // transient one, so it fails fast instead of retrying.
-async function forwardToCrm(body: InquiryPayload, inquiryId: string) {
+//
+// Returns the CRM-issued sequential invoice number (the CRM owns that
+// counter — see gsb/admin_crm's generateInvoiceNumber), or null if the CRM
+// is unreachable/unconfigured/rejected the request — callers fall back to
+// a locally generated reference id in that case so the thank-you page never
+// breaks over a CRM hiccup.
+async function forwardToCrm(body: InquiryPayload, inquiryId: string): Promise<string | null> {
   const crmUrl = process.env.CRM_API_URL;
   const apiKey = process.env.CRM_API_KEY;
   if (!crmUrl || !apiKey) {
     console.warn("CRM_API_URL/CRM_API_KEY not configured — skipping CRM sync for inquiry");
-    return;
+    return null;
   }
 
   // The CRM's lead schema only has a single `guests` count and `message`
@@ -74,12 +80,15 @@ async function forwardToCrm(body: InquiryPayload, inquiryId: string) {
         headers: { "Content-Type": "application/json", "x-api-key": apiKey },
         body: payload,
       });
-      if (res.ok) return;
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        return typeof data.invoiceNumber === "string" ? data.invoiceNumber : null;
+      }
 
       const text = await res.text().catch(() => "");
       if (res.status === 401 || res.status === 400) {
         console.error(`CRM lead sync rejected (inquiry ${inquiryId}):`, res.status, text);
-        return;
+        return null;
       }
       console.error(
         `CRM lead sync failed, attempt ${attempt}/${maxAttempts} (inquiry ${inquiryId}):`,
@@ -95,6 +104,7 @@ async function forwardToCrm(body: InquiryPayload, inquiryId: string) {
     if (attempt < maxAttempts) await sleep(attempt * 500);
   }
   console.error(`CRM lead sync gave up after ${maxAttempts} attempts (inquiry ${inquiryId}).`);
+  return null;
 }
 
 export async function POST(request: Request) {
@@ -109,7 +119,10 @@ export async function POST(request: Request) {
   const submittedAt = new Date().toISOString();
 
   console.log("New GSB Holidays inquiry:", inquiryId, body);
-  await forwardToCrm(body, inquiryId);
+  const crmInvoiceNumber = await forwardToCrm(body, inquiryId);
+  // Fall back to the local reference id if the CRM (which owns the real
+  // sequential invoice numbering) is unreachable or unconfigured.
+  const invoiceNumber = crmInvoiceNumber ?? inquiryId;
 
-  return NextResponse.json({ success: true, inquiryId, submittedAt });
+  return NextResponse.json({ success: true, invoiceNumber, submittedAt });
 }

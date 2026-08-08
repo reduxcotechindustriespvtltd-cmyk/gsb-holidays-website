@@ -14,7 +14,7 @@ export const SITE = {
   email: "gsbholidays@gmail.com",
   address: "Mumbai, Maharashtra, India",
   social: {
-    instagram: "https://www.instagram.com/pawnalake238",
+    instagram: "https://www.instagram.com/gsb_holidays2026",
     facebook: "https://www.facebook.com/profile.php?id=61584727873937",
     whatsapp: "https://wa.me/918452989850",
   },
@@ -55,6 +55,11 @@ export type Package = {
   maxGuests: number;
   description: string;
   amenities: string[];
+  // Optional: not set on the static fallback packages below — only real
+  // CRM-managed packages carry admin-authored notes/extra content.
+  note?: string[];
+  extraTitle?: string | null;
+  extraContent?: string | null;
   image: string;
   images?: string[];
   video?: string | null;
