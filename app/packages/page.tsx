@@ -3,11 +3,24 @@ import PageHero from "@/components/PageHero";
 import PackageBrowser from "@/components/PackageBrowser";
 import { DESTINATIONS, SITE } from "@/lib/data";
 import { getPackages } from "@/lib/cms";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Holiday Packages - ${SITE.name}`,
-  description: `Browse villas, farmhouses, resorts, cottages, camping and glamping packages at ${SITE.name}.`,
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ location?: string }>;
+}): Promise<Metadata> {
+  const { location } = await searchParams;
+  const destination = DESTINATIONS.find((d) => d.slug === location);
+
+  return pageMetadata({
+    title: destination ? `Packages in ${destination.name}` : "Holiday Packages",
+    description: destination
+      ? `Browse handpicked villas, farmhouses, resorts, cottages, camping and glamping packages around ${destination.name}.`
+      : `Browse villas, farmhouses, resorts, cottages, camping and glamping packages at ${SITE.name}.`,
+    path: destination ? `/packages?location=${destination.slug}` : "/packages",
+  });
+}
 
 export default async function PackagesPage({
   searchParams,
@@ -18,12 +31,11 @@ export default async function PackagesPage({
 
   const destination = DESTINATIONS.find((d) => d.slug === location);
   const locationMatches = destination
-    ? allPackages.filter((pkg) => pkg.location === destination.slug)
+    ? allPackages.filter((pkg) => pkg.destination?.trim().toLowerCase() === destination.slug)
     : allPackages;
-  // Packages aren't always tagged with a destination yet (e.g. the CRM's
-  // records don't carry `location` at all) — rather than show a dead-end
-  // empty page for a destination link in the main nav, fall back to the
-  // full list so there's always something to browse.
+  // Not every package has been tagged with a destination yet — rather than
+  // show a dead-end empty page for a destination link in the main nav, fall
+  // back to the full list so there's always something to browse.
   const noTaggedMatches = destination && locationMatches.length === 0;
   const packages = noTaggedMatches ? allPackages : locationMatches;
 

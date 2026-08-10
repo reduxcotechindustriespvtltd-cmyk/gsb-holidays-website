@@ -3,11 +3,13 @@ import PageHero from "@/components/PageHero";
 import About from "@/components/About";
 import Activities from "@/components/Activities";
 import { SITE } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `About Us - ${SITE.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "About Us",
   description: `Learn about ${SITE.name}, your trusted partner for handpicked stays across Maharashtra's top destinations.`,
-};
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

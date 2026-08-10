@@ -8,9 +8,12 @@ import { SITE } from "@/lib/data";
 import { formatDate, formatDateTime } from "@/lib/date";
 import { getPackageBySlug } from "@/lib/cms";
 
+// Post-submission confirmation page — nothing here is useful to a search
+// visitor, so keep it out of the index (and off the sitemap).
 export const metadata: Metadata = {
   title: `Thank You - ${SITE.name}`,
   description: `Thank you for your inquiry with ${SITE.name}.`,
+  robots: { index: false, follow: true },
 };
 
 export default async function ThankYouPage({

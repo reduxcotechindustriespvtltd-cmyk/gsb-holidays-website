@@ -5,11 +5,13 @@ import ContactForm from "@/components/ContactForm";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
 import { getPackages } from "@/lib/cms";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Contact Us - ${SITE.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Us",
   description: `Get in touch with ${SITE.name} to plan your lakeside holiday.`,
-};
+  path: "/contact",
+});
 
 export default async function ContactPage({
   searchParams,

@@ -3,11 +3,13 @@ import PageHero from "@/components/PageHero";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
 import { LegalSections, type LegalSection } from "@/lib/richText";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Terms & Conditions - ${SITE.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Terms & Conditions",
   description: `Terms and conditions for booking and staying at ${SITE.name}.`,
-};
+  path: "/terms",
+});
 
 const SECTIONS: LegalSection[] = [
   {

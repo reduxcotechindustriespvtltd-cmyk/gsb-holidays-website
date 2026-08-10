@@ -3,6 +3,9 @@ import { Playfair_Display, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingContactButtons from "@/components/FloatingContactButtons";
+import { getBranding } from "@/lib/cms";
+import { SITE } from "@/lib/data";
+import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -17,7 +20,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GSB Holidays - Lakeside Camping & Resort",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "GSB Holidays - Lakeside Camping & Resort",
+    template: `%s | ${SITE.name}`,
+  },
   description:
     "GSB Holidays offers luxury lakeside camping, villas, cottages and glamping tents with adventure activities and unforgettable holiday experiences.",
   keywords: [
@@ -28,22 +35,42 @@ export const metadata: Metadata = {
     "cottage booking",
     "adventure holiday",
   ],
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  name: SITE.name,
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo-full.png`,
+  image: `${SITE_URL}/logo-full.png`,
+  telephone: SITE.phone,
+  email: SITE.email,
+  address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressRegion: "Maharashtra", addressCountry: "IN" },
+  sameAs: [SITE.social.instagram, SITE.social.facebook],
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { logoUrl } = await getBranding();
+
   return (
     <html
       lang="en"
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-sand-50 text-brand-950">
-        <Navbar />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <Navbar logoUrl={logoUrl} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer logoUrl={logoUrl} />
         <FloatingContactButtons />
       </body>
     </html>

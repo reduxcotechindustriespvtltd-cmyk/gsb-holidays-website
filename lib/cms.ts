@@ -57,3 +57,8 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   const data = await fetchFromCrm<{ testimonials: Testimonial[] }>("/api/public/testimonials");
   return data?.testimonials ?? TESTIMONIALS;
 }
+
+export async function getBranding(): Promise<{ logoUrl: string | null }> {
+  const data = await fetchFromCrm<{ logoUrl: string | null }>("/api/public/branding");
+  return { logoUrl: data?.logoUrl ?? null };
+}

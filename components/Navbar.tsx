@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { DESTINATIONS, NAV_LINKS, SITE } from "@/lib/data";
 
-export default function Navbar() {
+export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [destinationsOpen, setDestinationsOpen] = useState(false);
@@ -41,12 +40,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-5 py-3">
           <Link href="/" className="flex items-center">
             <span className="inline-flex items-center rounded-xl bg-white/95 px-2.5 py-1.5 shadow-sm">
-              <Image
-                src="/logo-full.png"
+              {/* eslint-disable-next-line @next/next/no-img-element -- logo can be an admin-configured external URL, not next/image-optimizable at build time */}
+              <img
+                src={logoUrl || "/logo-full.png"}
                 alt={SITE.name}
-                width={808}
-                height={282}
-                priority
                 className="h-9 w-auto sm:h-10"
               />
             </span>

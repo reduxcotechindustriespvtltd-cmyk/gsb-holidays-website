@@ -3,11 +3,13 @@ import PageHero from "@/components/PageHero";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
 import { LegalSections, type LegalSection } from "@/lib/richText";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Privacy Policy - ${SITE.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy Policy",
   description: `Privacy policy explaining how ${SITE.name} collects and uses your information.`,
-};
+  path: "/privacy",
+});
 
 const INTRO = `At ${SITE.name}, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect and use your information when you visit our website, make an enquiry, or book our services.`;
 

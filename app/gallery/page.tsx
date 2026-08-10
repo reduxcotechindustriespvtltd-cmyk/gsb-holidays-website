@@ -3,11 +3,13 @@ import PageHero from "@/components/PageHero";
 import GalleryTabs from "@/components/GalleryTabs";
 import { SITE } from "@/lib/data";
 import { getGalleryImages, getGalleryVideos } from "@/lib/cms";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Gallery - ${SITE.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Gallery",
   description: `Photo and video gallery of ${SITE.name} — handpicked villas, farmhouses, resorts, camping and cottages.`,
-};
+  path: "/gallery",
+});
 
 export default async function GalleryPage() {
   const [images, videos] = await Promise.all([getGalleryImages(), getGalleryVideos()]);

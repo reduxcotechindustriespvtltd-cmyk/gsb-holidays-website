@@ -44,10 +44,11 @@ export type Package = {
   slug: string;
   name: string;
   type: string;
-  // Optional: the live CRM's package records don't carry this field yet, so
-  // destination filtering (see app/packages/page.tsx) falls back to showing
-  // everything rather than an empty page when it's absent.
-  location?: string;
+  // Free-text destination name (e.g. "Lonavala") set by the admin on the
+  // package — matched case-insensitively against DESTINATIONS slugs (see
+  // app/packages/page.tsx). Optional since older/untagged packages may not
+  // have one set yet.
+  destination?: string | null;
   price: number;
   priceKid: number;
   priceInfant: number;
@@ -58,6 +59,10 @@ export type Package = {
   // Optional: not set on the static fallback packages below — only real
   // CRM-managed packages carry admin-authored notes/extra content.
   note?: string[];
+  timings?: string[];
+  mealOptions?: string[];
+  activities?: string[];
+  highlights?: string[];
   extraTitle?: string | null;
   extraContent?: string | null;
   image: string;
@@ -71,7 +76,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-royal-villa",
     name: "GSB Royal Villa",
     type: "Villa",
-    location: "lonavala",
+    destination: "lonavala",
     price: 12999,
     priceKid: 12999,
     priceInfant: 0,
@@ -87,7 +92,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-lakeview-cottage",
     name: "GSB Lakeview Cottage",
     type: "Cottage",
-    location: "karjat",
+    destination: "karjat",
     price: 8499,
     priceKid: 8499,
     priceInfant: 0,
@@ -103,7 +108,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-luxury-glamping-tent",
     name: "GSB Luxury Glamping Tent",
     type: "Glamping",
-    location: "alibag",
+    destination: "alibag",
     price: 6999,
     priceKid: 6999,
     priceInfant: 0,
@@ -119,7 +124,7 @@ export const PACKAGES: Package[] = [
     slug: "gsb-riverside-camp-tent",
     name: "GSB Riverside Camp Tent",
     type: "Camping",
-    location: "panvel",
+    destination: "panvel",
     price: 3499,
     priceKid: 3499,
     priceInfant: 0,
@@ -143,16 +148,16 @@ export const PACKAGE_CATEGORIES = [
 ] as const;
 
 const TYPE_TO_CATEGORY: Record<string, string> = {
-  Villa: "Villas",
-  Farmhouse: "Farmhouses",
-  Resort: "Resorts",
-  Cottage: "Cottages",
-  Camping: "Camping",
-  Glamping: "Glamping",
+  villa: "Villas",
+  farmhouse: "Farmhouses",
+  resort: "Resorts",
+  cottage: "Cottages",
+  camping: "Camping",
+  glamping: "Glamping",
 };
 
 export function categoryForType(type: string): string {
-  return TYPE_TO_CATEGORY[type] ?? type;
+  return TYPE_TO_CATEGORY[type.trim().toLowerCase()] ?? type;
 }
 
 export type Activity = {

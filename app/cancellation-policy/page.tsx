@@ -3,11 +3,13 @@ import PageHero from "@/components/PageHero";
 import GlassCard from "@/components/GlassCard";
 import { SITE } from "@/lib/data";
 import { LegalSections, type LegalSection } from "@/lib/richText";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Cancellation Policy - ${SITE.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Cancellation Policy",
   description: `Cancellation and refund policy for ${SITE.name} bookings.`,
-};
+  path: "/cancellation-policy",
+});
 
 const SECTIONS: LegalSection[] = [
   {

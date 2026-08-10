@@ -7,9 +7,9 @@ import Reveal from "@/components/Reveal";
 import PackageGallery from "@/components/PackageGallery";
 import PackageHeroSlideshow from "@/components/PackageHeroSlideshow";
 import VideoEmbed from "@/components/VideoEmbed";
-import { SITE } from "@/lib/data";
 import { getPackageBySlug, getPackages } from "@/lib/cms";
 import { formatPriceUnit } from "@/lib/format";
+import { pageMetadata, SITE_URL } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const packages = await getPackages();
@@ -23,12 +23,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const pkg = await getPackageBySlug(slug);
-  if (!pkg) return { title: `Package Not Found - ${SITE.name}` };
+  if (!pkg) return { title: "Package Not Found", robots: { index: false, follow: false } };
 
-  return {
-    title: `${pkg.name} - ${SITE.name}`,
+  return pageMetadata({
+    title: pkg.name,
     description: pkg.description,
-  };
+    path: `/packages/${pkg.slug}`,
+    image: pkg.image,
+  });
 }
 
 export default async function PackageDetailPage({
@@ -45,8 +47,28 @@ export default async function PackageDetailPage({
     (url): url is string => Boolean(url),
   );
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pkg.name,
+    description: pkg.description,
+    image: galleryImages,
+    url: `${SITE_URL}/packages/${pkg.slug}`,
+    offers: {
+      "@type": "Offer",
+      price: pkg.price,
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/packages/${pkg.slug}`,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <section className="relative h-[56vh] min-h-[420px] w-full overflow-hidden pt-20">
         <PackageHeroSlideshow images={galleryImages} alt={pkg.name} />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-950/95 via-brand-950/40 to-brand-950/70" />
@@ -80,6 +102,19 @@ export default async function PackageDetailPage({
                 {pkg.description}
               </p>
 
+              {pkg.highlights && pkg.highlights.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {pkg.highlights.map((highlight) => (
+                    <span
+                      key={highlight}
+                      className="rounded-full bg-brand-900/5 px-3 py-1.5 text-xs font-semibold text-brand-900/80"
+                    >
+                      {highlight}
+                    </span>
+                  ))}
+                </div>
+              )}
+
               {pkg.amenities.length > 0 && (
                 <>
                   <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
@@ -101,6 +136,24 @@ export default async function PackageDetailPage({
                           </li>
                         ))}
                       </ul>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {pkg.activities && pkg.activities.length > 0 && (
+                <>
+                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
+                    Activities
+                  </h3>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {pkg.activities.map((activity) => (
+                      <span
+                        key={activity}
+                        className="rounded-full border border-brand-900/15 px-3 py-1.5 text-sm text-brand-900/80"
+                      >
+                        {activity}
+                      </span>
                     ))}
                   </div>
                 </>
@@ -175,7 +228,30 @@ export default async function PackageDetailPage({
                   <dt className="text-brand-900/60">Max Guests</dt>
                   <dd className="font-medium text-brand-900/80">{pkg.maxGuests}</dd>
                 </div>
+                {pkg.mealOptions && pkg.mealOptions.length > 0 && (
+                  <div className="flex items-center justify-between">
+                    <dt className="text-brand-900/60">Meal</dt>
+                    <dd className="font-medium text-brand-900/80">
+                      {pkg.mealOptions.join(" & ")}
+                    </dd>
+                  </div>
+                )}
               </dl>
+
+              {pkg.timings && pkg.timings.length > 0 && (
+                <div className="mt-4 border-t border-brand-900/10 pt-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-900/60">
+                    Check-in / Check-out
+                  </p>
+                  <ul className="mt-2 space-y-1.5">
+                    {pkg.timings.map((slot) => (
+                      <li key={slot} className="text-xs text-brand-900/75">
+                        {slot}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {pkg.note && pkg.note.length > 0 && (
                 <div className="mt-4 border-t border-brand-900/10 pt-4">

@@ -1,10 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { NAV_LINKS, SITE } from "@/lib/data";
 import SocialIcon from "./SocialIcon";
 
-export default function Footer() {
+export default function Footer({ logoUrl }: { logoUrl?: string | null }) {
   return (
       <footer className="relative overflow-hidden border-t border-white/20 bg-brand-950 text-white">
         <div
@@ -17,11 +16,10 @@ export default function Footer() {
             <div className="md:col-span-2">
               <Link href="/" className="inline-flex items-center">
                 <span className="inline-flex items-center rounded-xl bg-white/95 px-3 py-2 shadow-sm">
-                  <Image
-                    src="/logo-full.png"
+                  {/* eslint-disable-next-line @next/next/no-img-element -- logo can be an admin-configured external URL, not next/image-optimizable at build time */}
+                  <img
+                    src={logoUrl || "/logo-full.png"}
                     alt={SITE.name}
-                    width={808}
-                    height={282}
                     className="h-11 w-auto"
                   />
                 </span>
