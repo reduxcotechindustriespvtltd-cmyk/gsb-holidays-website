@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, ImagesIcon, IndianRupee, PlayCircle } from "l
 import GlassCard from "./GlassCard";
 import PackageCardImage from "./PackageCardImage";
 import type { Package } from "@/lib/data";
+import { formatPriceUnit } from "@/lib/format";
 
 export default function PackageCard({ pkg }: { pkg: Package }) {
   const photoCount = 1 + (pkg.images?.length ?? 0);
@@ -51,7 +52,7 @@ export default function PackageCard({ pkg }: { pkg: Package }) {
         <div className="mt-5 flex items-baseline border-t border-brand-900/10 pt-4 text-brand-950">
           <IndianRupee className="h-4 w-4" />
           <span className="text-xl font-bold">{pkg.price.toLocaleString("en-IN")}</span>
-          <span className="text-xs text-brand-900/60">/Per Person</span>
+          <span className="text-xs text-brand-900/60">/{formatPriceUnit(pkg.priceUnit)}</span>
         </div>
 
         <div className="mt-5 flex items-center gap-2">

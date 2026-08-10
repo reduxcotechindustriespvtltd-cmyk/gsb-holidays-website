@@ -9,6 +9,7 @@ import PackageHeroSlideshow from "@/components/PackageHeroSlideshow";
 import VideoEmbed from "@/components/VideoEmbed";
 import { SITE } from "@/lib/data";
 import { getPackageBySlug, getPackages } from "@/lib/cms";
+import { formatPriceUnit } from "@/lib/format";
 
 export async function generateStaticParams() {
   const packages = await getPackages();
@@ -146,7 +147,7 @@ export default async function PackageDetailPage({
               <div className="flex items-baseline text-brand-950">
                 <IndianRupee className="h-5 w-5" />
                 <span className="text-3xl font-bold">{pkg.price.toLocaleString("en-IN")}</span>
-                <span className="text-sm text-brand-900/60">/Per Person</span>
+                <span className="text-sm text-brand-900/60">/{formatPriceUnit(pkg.priceUnit)}</span>
               </div>
 
               <dl className="mt-4 space-y-1.5 border-t border-brand-900/10 pt-4 text-xs">
