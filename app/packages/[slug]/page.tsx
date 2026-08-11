@@ -102,17 +102,78 @@ export default async function PackageDetailPage({
                 {pkg.description}
               </p>
 
+              {pkg.timings && pkg.timings.length > 0 && (
+                <>
+                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
+                    Timings
+                  </h3>
+                  <ul className="mt-4 space-y-2">
+                    {pkg.timings.map((slot) => (
+                      <li
+                        key={slot}
+                        className="flex items-start gap-2 text-sm text-brand-900/80"
+                      >
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-700" />
+                        {slot}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {pkg.mealOptions && pkg.mealOptions.length > 0 && (
+                <>
+                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
+                    Meals
+                  </h3>
+                  <ul className="mt-4 space-y-2">
+                    {pkg.mealOptions.map((meal) => (
+                      <li
+                        key={meal}
+                        className="flex items-start gap-2 text-sm text-brand-900/80"
+                      >
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brand-700" />
+                        {meal}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {pkg.activities && pkg.activities.length > 0 && (
+                <>
+                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
+                    Activities
+                  </h3>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {pkg.activities.map((activity) => (
+                      <span
+                        key={activity}
+                        className="rounded-full border border-brand-900/15 px-3 py-1.5 text-sm text-brand-900/80"
+                      >
+                        {activity}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+
               {pkg.highlights && pkg.highlights.length > 0 && (
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {pkg.highlights.map((highlight) => (
-                    <span
-                      key={highlight}
-                      className="rounded-full bg-brand-900/5 px-3 py-1.5 text-xs font-semibold text-brand-900/80"
-                    >
-                      {highlight}
-                    </span>
-                  ))}
-                </div>
+                <>
+                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
+                    Highlights
+                  </h3>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {pkg.highlights.map((highlight) => (
+                      <span
+                        key={highlight}
+                        className="rounded-full bg-brand-900/5 px-3 py-1.5 text-xs font-semibold text-brand-900/80"
+                      >
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                </>
               )}
 
               {pkg.amenities.length > 0 && (
@@ -136,24 +197,6 @@ export default async function PackageDetailPage({
                           </li>
                         ))}
                       </ul>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {pkg.activities && pkg.activities.length > 0 && (
-                <>
-                  <h3 className="mt-10 font-display text-lg font-semibold text-brand-950">
-                    Activities
-                  </h3>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {pkg.activities.map((activity) => (
-                      <span
-                        key={activity}
-                        className="rounded-full border border-brand-900/15 px-3 py-1.5 text-sm text-brand-900/80"
-                      >
-                        {activity}
-                      </span>
                     ))}
                   </div>
                 </>
@@ -228,30 +271,7 @@ export default async function PackageDetailPage({
                   <dt className="text-brand-900/60">Max Guests</dt>
                   <dd className="font-medium text-brand-900/80">{pkg.maxGuests}</dd>
                 </div>
-                {pkg.mealOptions && pkg.mealOptions.length > 0 && (
-                  <div className="flex items-center justify-between">
-                    <dt className="text-brand-900/60">Meal</dt>
-                    <dd className="font-medium text-brand-900/80">
-                      {pkg.mealOptions.join(" & ")}
-                    </dd>
-                  </div>
-                )}
               </dl>
-
-              {pkg.timings && pkg.timings.length > 0 && (
-                <div className="mt-4 border-t border-brand-900/10 pt-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-900/60">
-                    Check-in / Check-out
-                  </p>
-                  <ul className="mt-2 space-y-1.5">
-                    {pkg.timings.map((slot) => (
-                      <li key={slot} className="text-xs text-brand-900/75">
-                        {slot}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
 
               {pkg.note && pkg.note.length > 0 && (
                 <div className="mt-4 border-t border-brand-900/10 pt-4">
