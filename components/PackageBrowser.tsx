@@ -14,6 +14,10 @@ export default function PackageBrowser({ packages }: { packages: Package[] }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
+  const availableFilters = FILTERS.filter(
+    (filter) => filter === "All" || packages.some((pkg) => categoryForType(pkg.type) === filter),
+  );
+
   const filtered =
     active === "All" ? packages : packages.filter((pkg) => categoryForType(pkg.type) === active);
   const visible = filtered.slice(0, visibleCount);
@@ -31,7 +35,7 @@ export default function PackageBrowser({ packages }: { packages: Package[] }) {
   return (
     <div>
       <div className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-2 overflow-x-auto px-6 pb-1 sm:justify-center">
-        {FILTERS.map((filter) => (
+        {availableFilters.map((filter) => (
           <button
             key={filter}
             ref={(el) => {
@@ -56,7 +60,7 @@ export default function PackageBrowser({ packages }: { packages: Package[] }) {
         </p>
       ) : (
         <>
-          <div className={`mt-10 grid gap-6 sm:grid-cols-2 ${packageGridColsClass(visible.length)}`}>
+          <div className={`mt-10 grid gap-6 sm:grid-cols-2 ${packageGridColsClass()}`}>
             {visible.map((pkg, i) => (
               <Reveal key={pkg.slug} delay={i * 0.1}>
                 <PackageCard pkg={pkg} />

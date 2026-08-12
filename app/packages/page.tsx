@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import PackageBrowser from "@/components/PackageBrowser";
-import { DESTINATIONS, SITE } from "@/lib/data";
-import { getPackages } from "@/lib/cms";
+import { SITE, packageMatchesDestination } from "@/lib/data";
+import { getDestinations, getPackages } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -10,8 +10,8 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ location?: string }>;
 }): Promise<Metadata> {
-  const { location } = await searchParams;
-  const destination = DESTINATIONS.find((d) => d.slug === location);
+  const [{ location }, destinations] = await Promise.all([searchParams, getDestinations()]);
+  const destination = destinations.find((d) => d.slug === location);
 
   return pageMetadata({
     title: destination ? `Packages in ${destination.name}` : "Holiday Packages",
@@ -27,11 +27,15 @@ export default async function PackagesPage({
 }: {
   searchParams: Promise<{ location?: string }>;
 }) {
-  const [{ location }, allPackages] = await Promise.all([searchParams, getPackages()]);
+  const [{ location }, allPackages, destinations] = await Promise.all([
+    searchParams,
+    getPackages(),
+    getDestinations(),
+  ]);
 
-  const destination = DESTINATIONS.find((d) => d.slug === location);
+  const destination = destinations.find((d) => d.slug === location);
   const locationMatches = destination
-    ? allPackages.filter((pkg) => pkg.destination?.trim().toLowerCase() === destination.slug)
+    ? allPackages.filter((pkg) => packageMatchesDestination(pkg, destination.slug))
     : allPackages;
   // Not every package has been tagged with a destination yet — rather than
   // show a dead-end empty page for a destination link in the main nav, fall
@@ -55,7 +59,7 @@ export default async function PackagesPage({
       />
 
       <section className="mx-auto max-w-6xl px-6 py-12 sm:py-16 lg:py-20">
-        <PackageBrowser packages={packages} />
+        <PackageBrowser key={location ?? "all"} packages={packages} />
       </section>
     </>
   );

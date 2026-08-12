@@ -4,9 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { DESTINATIONS, NAV_LINKS, SITE } from "@/lib/data";
+import { NAV_LINKS, SITE, type Destination } from "@/lib/data";
 
-export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
+export default function Navbar({
+  logoUrl,
+  destinations,
+}: {
+  logoUrl?: string | null;
+  destinations: Destination[];
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [destinationsOpen, setDestinationsOpen] = useState(false);
@@ -87,7 +93,7 @@ export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
                     className="rounded-2xl border border-white/10 bg-brand-950 p-2"
                     style={{ boxShadow: "0 24px 48px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)" }}
                   >
-                    {DESTINATIONS.map((dest) => (
+                    {destinations.map((dest) => (
                       <Link
                         key={dest.slug}
                         href={`/packages?location=${dest.slug}`}
@@ -157,7 +163,7 @@ export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
             </button>
             {mobileDestinationsOpen && (
               <div className="ml-3 flex flex-col gap-1 border-l border-white/10 pl-3">
-                {DESTINATIONS.map((dest) => (
+                {destinations.map((dest) => (
                   <Link
                     key={dest.slug}
                     href={`/packages?location=${dest.slug}`}

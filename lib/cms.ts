@@ -3,8 +3,10 @@ import {
   GALLERY_IMAGES,
   GALLERY_VIDEOS,
   TESTIMONIALS,
+  DESTINATIONS,
   type Package,
   type Testimonial,
+  type Destination,
 } from "./data";
 
 // Pulls live content from the GSB CRM's public, unauthenticated read API so
@@ -56,6 +58,11 @@ export async function getGalleryVideos(): Promise<string[]> {
 export async function getTestimonials(): Promise<Testimonial[]> {
   const data = await fetchFromCrm<{ testimonials: Testimonial[] }>("/api/public/testimonials");
   return data?.testimonials ?? TESTIMONIALS;
+}
+
+export async function getDestinations(): Promise<Destination[]> {
+  const data = await fetchFromCrm<{ destinations: Destination[] }>("/api/public/destinations");
+  return data?.destinations ?? DESTINATIONS;
 }
 
 export async function getBranding(): Promise<{ logoUrl: string | null }> {

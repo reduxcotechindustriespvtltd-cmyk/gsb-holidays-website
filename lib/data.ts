@@ -40,6 +40,10 @@ export const DESTINATIONS: Destination[] = [
   { slug: "alibag", name: "Alibag" },
 ];
 
+export function packageMatchesDestination(pkg: Package, slug: string) {
+  return pkg.destination?.trim().toLowerCase() === slug;
+}
+
 export type Package = {
   slug: string;
   name: string;

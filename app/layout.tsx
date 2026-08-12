@@ -3,8 +3,8 @@ import { Playfair_Display, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingContactButtons from "@/components/FloatingContactButtons";
-import { getBranding } from "@/lib/cms";
-import { SITE } from "@/lib/data";
+import { getBranding, getDestinations, getPackages } from "@/lib/cms";
+import { SITE, packageMatchesDestination } from "@/lib/data";
 import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -56,7 +56,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { logoUrl } = await getBranding();
+  const [{ logoUrl }, destinations, packages] = await Promise.all([
+    getBranding(),
+    getDestinations(),
+    getPackages(),
+  ]);
+  // Only show destinations in the nav that at least one package is tagged
+  // with — an empty destination would just dead-end at "no stays here yet".
+  const navDestinations = destinations.filter((destination) =>
+    packages.some((pkg) => packageMatchesDestination(pkg, destination.slug))
+  );
 
   return (
     <html
@@ -68,7 +77,7 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <Navbar logoUrl={logoUrl} />
+        <Navbar logoUrl={logoUrl} destinations={navDestinations} />
         <main className="flex-1">{children}</main>
         <Footer logoUrl={logoUrl} />
         <FloatingContactButtons />
