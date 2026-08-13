@@ -11,10 +11,29 @@ import { getGalleryImages, getPackages, getTestimonials } from "@/lib/cms";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Lakeside Camping, Villas & Resort Stays",
+  title: "GSB Holidays | Villas, Resorts, Farmhouses & Camping",
   description:
-    "GSB Holidays offers luxury lakeside camping, villas, cottages and glamping tents with adventure activities and unforgettable holiday experiences across Karjat, Lonavala, Alibag and Panvel.",
+    "Discover villas, resorts, farmhouses, cottages, glamping and camping stays in Lonavala, Karjat, Alibag and Panvel. Book your perfect getaway with GSB Holidays.",
+  keywords: [
+    "GSB Holidays",
+    "villas near Mumbai",
+    "resorts near Mumbai",
+    "farmhouses near Mumbai",
+    "cottages near Mumbai",
+    "glamping near Mumbai",
+    "camping near Mumbai",
+    "Lonavala resorts",
+    "Lonavala villas",
+    "Lonavala cottages",
+    "Pawna Lake camping",
+    "Karjat farmhouse",
+    "Alibag camping",
+    "Panvel farmhouse",
+    "weekend getaway near Mumbai",
+    "weekend getaway near Pune",
+  ],
   path: "/",
+  absolute: true,
 });
 
 export default async function Home() {

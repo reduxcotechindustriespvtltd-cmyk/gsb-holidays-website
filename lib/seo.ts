@@ -19,18 +19,26 @@ export function pageMetadata({
   description,
   path,
   image,
+  keywords,
+  absolute,
 }: {
   title: string;
   description: string;
   path: string;
   image?: string;
+  keywords?: string[];
+  // Set when `title` is already the exact, full <title> tag copy (e.g. it
+  // already includes the site name) — bypasses the root layout's `%s | GSB
+  // Holidays` template so the site name isn't appended a second time.
+  absolute?: boolean;
 }): Metadata {
   const url = path === "/" ? SITE_URL : `${SITE_URL}${path}`;
-  const fullTitle = `${title} | ${SITE.name}`;
+  const fullTitle = absolute ? title : `${title} | ${SITE.name}`;
 
   return {
-    title,
+    title: absolute ? { absolute: title } : title,
     description,
+    ...(keywords ? { keywords } : {}),
     alternates: { canonical: url },
     openGraph: {
       title: fullTitle,

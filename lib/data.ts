@@ -6,7 +6,7 @@ export const SITE = {
   headline: "Find Your",
   headlineAccent: "Perfect Stay",
   heroSubheadline:
-    "Discover handpicked villas, farmhouses, resorts, camping & cottages for every kind of getaway.",
+    "Explore handpicked villas, resorts, farmhouses, cottages, glamping and camping stays across Lonavala, Karjat, Alibag and Panvel. Whether you are planning a family vacation, romantic getaway, group trip or weekend escape, GSB Holidays offers comfortable stays and memorable experiences near Mumbai and Pune.",
   footerDescription:
     "Explore handpicked stays across Karjat, Lonavala, Alibag, Panvel and more — crafted for unforgettable getaways.",
   phone: "+91 84529 89850",
