@@ -48,18 +48,6 @@ async function forwardToCrm(body: InquiryPayload, inquiryId: string): Promise<st
     return null;
   }
 
-  // The CRM's lead schema only has a single `guests` count and `message`
-  // field — it doesn't know about the adult/kid/infant breakdown, so that
-  // detail is folded into the message text rather than silently dropped.
-  const guestBreakdown = [
-    body.guestsKids && Number(body.guestsKids) > 0 ? `${body.guestsKids} kid(s)` : null,
-    body.guestsInfants && Number(body.guestsInfants) > 0 ? `${body.guestsInfants} infant(s)` : null,
-  ].filter(Boolean);
-  const message =
-    guestBreakdown.length > 0
-      ? `${body.message ?? ""} (Guests include ${guestBreakdown.join(", ")})`.trim()
-      : body.message;
-
   const payload = JSON.stringify({
     inquiryId,
     name: body.name,
@@ -68,8 +56,11 @@ async function forwardToCrm(body: InquiryPayload, inquiryId: string): Promise<st
     checkIn: body.checkIn,
     checkOut: body.checkOut,
     guests: body.guests,
+    guestsAdults: body.guestsAdults,
+    guestsKids: body.guestsKids,
+    guestsInfants: body.guestsInfants,
     package: body.package,
-    message,
+    message: body.message,
   });
 
   const maxAttempts = 3;
