@@ -13,6 +13,7 @@ type InquiryPayload = {
   guestsInfants?: string;
   package?: string;
   message?: string;
+  turnstileToken?: string | null;
 };
 
 function generateInquiryId() {
@@ -23,6 +24,28 @@ function generateInquiryId() {
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// No-ops (passes) until TURNSTILE_SECRET_KEY is configured — the CAPTCHA
+// ships disabled rather than either blocking every real inquiry or shipping
+// with Cloudflare's public "always pass" test keys baked into production.
+async function verifyTurnstile(token: string | null | undefined, remoteIp: string | null): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (!token) return false;
+
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret, response: token, ...(remoteIp ? { remoteip: remoteIp } : {}) }),
+    });
+    const data = await res.json().catch(() => ({}));
+    return data?.success === true;
+  } catch (error) {
+    console.error("Turnstile verification errored:", error);
+    return false;
+  }
 }
 
 // Forwards a validated inquiry to the GSB CRM so it shows up as a Lead
@@ -104,6 +127,15 @@ export async function POST(request: Request) {
   const errors = validateInquiry(body);
   if (Object.keys(errors).length > 0) {
     return NextResponse.json({ errors }, { status: 400 });
+  }
+
+  const remoteIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+  const captchaOk = await verifyTurnstile(body.turnstileToken, remoteIp);
+  if (!captchaOk) {
+    return NextResponse.json(
+      { errors: { captcha: "Verification failed — please try again." } },
+      { status: 400 },
+    );
   }
 
   const inquiryId = generateInquiryId();

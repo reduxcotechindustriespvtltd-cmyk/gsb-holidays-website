@@ -1,15 +1,20 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Send } from "lucide-react";
 import DatePicker from "./DatePicker";
 import GuestSelector, { DEFAULT_GUESTS, type GuestCounts } from "./GuestSelector";
+import TurnstileWidget, { type TurnstileWidgetHandle } from "./TurnstileWidget";
 import { addDays, toISODate } from "@/lib/date";
 import { validateInquiry, type InquiryErrors } from "@/lib/validation";
 import type { Package } from "@/lib/data";
 
 type Status = "idle" | "loading" | "error";
+
+// Unset until a real Cloudflare Turnstile site is created — the widget and
+// its server-side check both no-op in that case, so the form keeps working.
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export default function ContactForm({
   defaultPackage,
@@ -24,6 +29,9 @@ export default function ContactForm({
   const [checkOut, setCheckOut] = useState<Date | null>(null);
   const [guests, setGuests] = useState<GuestCounts>(DEFAULT_GUESTS);
   const [errors, setErrors] = useState<InquiryErrors>({});
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
   function handleNameInput(e: ChangeEvent<HTMLInputElement>) {
     e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, "");
@@ -56,18 +64,27 @@ export default function ContactForm({
       setErrors(fieldErrors);
       return;
     }
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setCaptchaError("Please complete the verification above.");
+      return;
+    }
     setErrors({});
+    setCaptchaError(null);
     setStatus("loading");
 
     try {
       const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, turnstileToken }),
       });
       const data = await res.json();
       if (!res.ok) {
         if (data?.errors) setErrors(data.errors);
+        // A single-use token was just consumed (successfully or not) — reset
+        // so a retry gets a fresh one instead of silently failing again.
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
         throw new Error("Request failed");
       }
 
@@ -171,6 +188,20 @@ export default function ContactForm({
         />
         {errors.message && <p className="mt-1 text-xs text-red-600">{errors.message}</p>}
       </label>
+
+      {TURNSTILE_SITE_KEY && (
+        <div className="sm:col-span-2">
+          <TurnstileWidget
+            ref={turnstileRef}
+            siteKey={TURNSTILE_SITE_KEY}
+            onVerify={(token) => {
+              setTurnstileToken(token);
+              setCaptchaError(null);
+            }}
+          />
+          {captchaError && <p className="mt-1 text-xs text-red-600">{captchaError}</p>}
+        </div>
+      )}
 
       <button
         type="submit"
