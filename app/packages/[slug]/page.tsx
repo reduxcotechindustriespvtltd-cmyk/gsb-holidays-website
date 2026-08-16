@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CheckCircle2, IndianRupee } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, IndianRupee, Info } from "lucide-react";
 import GlassCard from "@/components/GlassCard";
 import Reveal from "@/components/Reveal";
 import PackageGallery from "@/components/PackageGallery";
@@ -42,6 +42,7 @@ export default async function PackageDetailPage({
   const pkg = await getPackageBySlug(slug);
   if (!pkg) notFound();
 
+  const isVilla = pkg.type === "Villa";
   const galleryImages = [pkg.image, ...(pkg.images ?? [])];
   const galleryVideos = [pkg.video, ...(pkg.videos ?? [])].filter(
     (url): url is string => Boolean(url),
@@ -247,26 +248,37 @@ export default async function PackageDetailPage({
               </div>
 
               <dl className="mt-4 space-y-1.5 border-t border-brand-900/10 pt-4 text-xs">
-                <div className="flex items-center justify-between">
-                  <dt className="text-brand-900/60">Adults</dt>
-                  <dd className="font-medium text-brand-900/80">
-                    ₹{pkg.price.toLocaleString("en-IN")}/person
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-brand-900/60">Kids (5–10 yrs)</dt>
-                  <dd className="font-medium text-brand-900/80">
-                    {pkg.priceKid > 0 ? `₹${pkg.priceKid.toLocaleString("en-IN")}/person` : "Free"}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-brand-900/60">Infants (0–5 yrs)</dt>
-                  <dd className="font-medium text-brand-700">
-                    {pkg.priceInfant > 0
-                      ? `₹${pkg.priceInfant.toLocaleString("en-IN")}/person`
-                      : "Free"}
-                  </dd>
-                </div>
+                {isVilla ? (
+                  <div className="flex items-start gap-2 text-brand-900/70">
+                    <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-700" />
+                    <p>Individual villa pricing for one night — the whole property, not per person.</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <dt className="text-brand-900/60">Adults</dt>
+                      <dd className="font-medium text-brand-900/80">
+                        ₹{pkg.price.toLocaleString("en-IN")}/person
+                      </dd>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <dt className="text-brand-900/60">Kids (5–10 yrs)</dt>
+                      <dd className="font-medium text-brand-900/80">
+                        {pkg.priceKid > 0
+                          ? `₹${pkg.priceKid.toLocaleString("en-IN")}/person`
+                          : "Free"}
+                      </dd>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <dt className="text-brand-900/60">Infants (0–5 yrs)</dt>
+                      <dd className="font-medium text-brand-700">
+                        {pkg.priceInfant > 0
+                          ? `₹${pkg.priceInfant.toLocaleString("en-IN")}/person`
+                          : "Free"}
+                      </dd>
+                    </div>
+                  </>
+                )}
                 <div className="flex items-center justify-between">
                   <dt className="text-brand-900/60">Max Guests</dt>
                   <dd className="font-medium text-brand-900/80">{pkg.maxGuests}</dd>

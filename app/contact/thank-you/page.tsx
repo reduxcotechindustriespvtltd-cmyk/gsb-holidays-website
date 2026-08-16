@@ -50,6 +50,7 @@ export default async function ThankYouPage({
   } = await searchParams;
 
   const pkg = packageSlug ? await getPackageBySlug(packageSlug) : null;
+  const isVilla = pkg?.type === "Villa";
   const adults = Number(guestsAdults) || 0;
   const kids = Number(guestsKids) || 0;
   const infants = Number(guestsInfants) || 0;
@@ -60,9 +61,11 @@ export default async function ThankYouPage({
   const kidCost = pkg ? kids * pkg.priceKid : 0;
   const infantCost = pkg ? infants * pkg.priceInfant : 0;
   const subtotal = pkg
-    ? hasBreakdown
-      ? adultCost + kidCost + infantCost
-      : pkg.price * billableGuests
+    ? isVilla
+      ? pkg.price
+      : hasBreakdown
+        ? adultCost + kidCost + infantCost
+        : pkg.price * billableGuests
     : 0;
   const total = subtotal;
 
@@ -172,7 +175,12 @@ export default async function ThankYouPage({
                       Amount Summary
                     </h4>
                     <div className="mt-4 space-y-2 text-sm">
-                      {hasBreakdown ? (
+                      {isVilla ? (
+                        <div className="flex items-center justify-between">
+                          <span className="text-brand-900/70">Max Guests</span>
+                          <span className="font-medium text-brand-950">{pkg.maxGuests}</span>
+                        </div>
+                      ) : hasBreakdown ? (
                         <>
                           {adults > 0 && (
                             <div className="flex items-center justify-between">
