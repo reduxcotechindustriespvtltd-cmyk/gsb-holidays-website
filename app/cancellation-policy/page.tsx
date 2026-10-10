@@ -46,6 +46,26 @@ const SECTIONS: LegalSection[] = [
     ],
   },
   {
+    title: "Booking Date Modification & Postponement Policy",
+    blocks: [
+      {
+        type: "ul",
+        items: [
+          "Guests may modify their confirmed booking date **a maximum of 2 times**.",
+          "A request to postpone the booking must be communicated **at least 5 days before the original Check-in date**. Any Postponement Request made **2 days before Check-in or on the Check-in date** will not be accepted.",
+          "All date modification requests are **subject to availability**. If the requested date is unavailable, the guest will need to select an alternative available date.",
+          "The new postponed booking date must be **within 2 months from the original Check-in date**. Any date beyond this two-month period cannot be accommodated under the existing booking.",
+          "If there is any difference in the applicable package or room rate for the new date, the **additional amount must be paid by the guest**.",
+          "If the booking is moved to a date with a lower applicable rate, **the difference in amount will not be refunded**.",
+          "If the booking is postponed to a **Weekend, Public Holiday, or Special Occasion**, the applicable rates and availability for the new date will apply.",
+          "After **2 date modifications**, no further changes to the booking date will be permitted.",
+          "If the guest wishes to change the date again after two modifications, they will be required to **make a new booking**. The new booking will be subject to the availability and prevailing rates applicable at that time.",
+          "If the date modification results in any changes to the booking terms, package, or rates, the **terms and rates applicable to the new date will be considered final**.",
+        ],
+      },
+    ],
+  },
+  {
     title: "No-Show",
     blocks: [
       {

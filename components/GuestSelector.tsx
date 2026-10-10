@@ -26,7 +26,7 @@ const TIERS: Tier[] = [
   { key: "infants", title: "Infants", subtitle: "Ages 0-5", min: 0 },
 ];
 
-const MAX_PER_TIER = 10;
+const MAX_PER_TIER = 20;
 
 export function guestSummary(value: GuestCounts) {
   const parts: string[] = [`${value.adults} ${value.adults === 1 ? "Adult" : "Adults"}`];
