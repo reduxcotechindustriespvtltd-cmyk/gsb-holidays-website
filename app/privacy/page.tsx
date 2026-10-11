@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({
   description: `Privacy policy explaining how ${SITE.name} collects and uses your information.`,
   path: "/privacy",
 });
-//... check
+//... new
 
 const INTRO = `At ${SITE.name}, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect and use your information when you visit our website, make an enquiry, or book our services.`;
 
