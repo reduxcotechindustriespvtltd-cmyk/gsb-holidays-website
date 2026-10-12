@@ -26,8 +26,6 @@ const TIERS: Tier[] = [
   { key: "infants", title: "Infants", subtitle: "Ages 0-5", min: 0 },
 ];
 
-const MAX_PER_TIER = 20;
-
 export function guestSummary(value: GuestCounts) {
   const parts: string[] = [`${value.adults} ${value.adults === 1 ? "Adult" : "Adults"}`];
   if (value.kids > 0) parts.push(`${value.kids} ${value.kids === 1 ? "Kid" : "Kids"}`);
@@ -64,7 +62,7 @@ export default function GuestSelector({
   }, [open]);
 
   function update(key: keyof GuestCounts, delta: number, min: number) {
-    const next = Math.max(min, Math.min(MAX_PER_TIER, value[key] + delta));
+    const next = Math.max(min, value[key] + delta);
     onChange({ ...value, [key]: next });
   }
 
@@ -175,7 +173,6 @@ export default function GuestSelector({
                           <button
                             type="button"
                             onClick={() => update(tier.key, 1, tier.min)}
-                            disabled={value[tier.key] >= MAX_PER_TIER}
                             aria-label={`Increase ${tier.title.toLowerCase()}`}
                             className={`flex h-9 w-9 items-center justify-center rounded-full border transition disabled:cursor-not-allowed disabled:opacity-30 ${
                               isDark
