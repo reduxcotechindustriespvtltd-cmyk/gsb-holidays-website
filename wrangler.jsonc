@@ -1,0 +1,47 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "gsb-holidays-website",
+	"compatibility_date": "2026-10-19",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	// Pinned here so `wrangler deploy` can't silently strip this on a future
+	// build — it was previously set only via the Cloudflare dashboard, and
+	// with no committed wrangler.jsonc at all, every deploy auto-regenerated
+	// a bare config (via `@opennextjs/cloudflare migrate`) with no routes.
+	"routes": [
+		{
+			"pattern": "gsbholiday.com",
+			"custom_domain": true
+		}
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Self-reference service binding, the service name must match the worker name
+			// see https://opennext.js.org/cloudflare/caching
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "gsb-holidays-website"
+		}
+	],
+	"images": {
+		// Enable image optimization
+		// see https://opennext.js.org/cloudflare/howtos/image
+		"binding": "IMAGES"
+	},
+	// Backs the OpenNext incremental cache (see open-next.config.ts) so ISR
+	// pages and `fetch(..., { next: { revalidate } })` calls to the CRM
+	// actually get cached between requests instead of hitting it live on
+	// every single page view.
+	"kv_namespaces": [
+		{
+			"binding": "NEXT_INC_CACHE_KV",
+			"id": "2d3b1fcb7d62497599033db9fcd45115"
+		}
+	]
+}
