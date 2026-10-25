@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
 
+// Forces Cloudflare Workers Builds to do a real rebuild instead of reusing a
+// cached build output for a no-file-change commit — an empty commit here
+// previously deployed in ~16s (suspiciously fast for a full `next build`)
+// without picking up the newly-added CRM_API_URL build variable.
+// cache-bust: 2026-10-25
+
 // Parsed at config-eval time so a missing/malformed CRM_API_URL (e.g. local
 // dev without it set) never breaks the build — package/gallery images just
 // fall back to the static Unsplash URLs in that case (see lib/cms.ts).
