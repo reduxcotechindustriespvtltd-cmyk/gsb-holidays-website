@@ -17,6 +17,18 @@
 			"custom_domain": true
 		}
 	],
+	// Runtime environment for the Worker. CRM_API_URL is the CRM's public,
+	// unauthenticated read API base — not a secret (it's the same value in
+	// .env.example). lib/cms.ts reads it at request time, and
+	// normalizeCrmFileUrl re-bases CRM file URLs onto this origin.
+	// The matching BUILD-time value lives in the Cloudflare dashboard under
+	// Workers Builds -> Variables; next.config.ts needs it there to put the
+	// CRM host into `images.remotePatterns`.
+	// CRM_API_KEY is a secret and must stay out of this file — set it with
+	// `wrangler secret put CRM_API_KEY`.
+	"vars": {
+		"CRM_API_URL": "https://admin.gsbholiday.com"
+	},
 	"assets": {
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
