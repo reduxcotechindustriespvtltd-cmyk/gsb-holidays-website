@@ -9,7 +9,7 @@ import doQueue from "@opennextjs/cloudflare/overrides/queue/do-queue";
 // "/packages/[slug]", then hits the CRM live instead of serving from cache.
 // This KV-backed cache makes `fetch(..., { next: { revalidate: 60 } })` in
 // lib/cms.ts (and full-page ISR) actually persist between requests.
-export default defineCloudflareConfig({
+const config = defineCloudflareConfig({
 	incrementalCache: kvIncrementalCache,
 	// Without a queue, OpenNext falls back to a no-op that silently drops every
 	// background ISR revalidation — a prerendered page that goes stale once can
@@ -20,3 +20,14 @@ export default defineCloudflareConfig({
 	// revalidation so stale pages regenerate.
 	queue: doQueue,
 });
+
+// `opennextjs-cloudflare build` does not run `next build` directly — it shells
+// out to the package manager's `build` script (see @opennextjs/aws's
+// buildNextjsApp). Since this repo's `build` script IS
+// `opennextjs-cloudflare build` (Cloudflare Workers Builds invokes
+// `npm run build`), the default recurses into itself forever: the build spins
+// until Cloudflare's timeout kills it and nothing ever deploys. Point the
+// inner Next.js step at the plain `next build` script instead.
+config.buildCommand = "npm run build:next";
+
+export default config;
