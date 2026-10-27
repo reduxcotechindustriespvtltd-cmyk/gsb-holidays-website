@@ -38,6 +38,22 @@
 	// pages and `fetch(..., { next: { revalidate } })` calls to the CRM
 	// actually get cached between requests instead of hitting it live on
 	// every single page view.
+	// Backs the OpenNext revalidation queue (see open-next.config.ts) — the
+	// Durable Object is what actually executes background ISR regeneration.
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "NEXT_CACHE_DO_QUEUE",
+				"class_name": "DOQueueHandler"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["DOQueueHandler"]
+		}
+	],
 	"kv_namespaces": [
 		{
 			"binding": "NEXT_INC_CACHE_KV",

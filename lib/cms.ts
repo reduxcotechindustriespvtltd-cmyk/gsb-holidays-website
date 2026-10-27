@@ -32,12 +32,47 @@ async function fetchFromCrm<T>(path: string): Promise<T | null> {
   }
 }
 
+// The CRM builds absolute file URLs from its own server bind address rather
+// than its public origin, so `/api/public/*` currently hands back things like
+// `https://0.0.0.0:3000/api/public/files/packages/abc.jpg`. That host is
+// unroutable from a browser and isn't in next.config.ts's `remotePatterns`
+// (which is derived from CRM_API_URL), so every such image 400s at
+// /_next/image. Re-base any CRM-served file URL onto the origin we actually
+// configured. Non-CRM URLs (Cloudinary branding, the static Unsplash
+// fallbacks in ./data) are passed through untouched.
+function normalizeCrmFileUrl(url: string): string;
+function normalizeCrmFileUrl(url: string | null | undefined): string | null;
+function normalizeCrmFileUrl(url: string | null | undefined): string | null {
+  if (!url) return url ?? null;
+  const crmUrl = process.env.CRM_API_URL;
+  if (!crmUrl) return url;
+
+  try {
+    const parsed = new URL(url);
+    if (!parsed.pathname.startsWith("/api/public/files/")) return url;
+    const { origin } = new URL(crmUrl);
+    return `${origin}${parsed.pathname}${parsed.search}`;
+  } catch {
+    return url;
+  }
+}
+
+function normalizePackageMedia(pkg: Package): Package {
+  return {
+    ...pkg,
+    image: normalizeCrmFileUrl(pkg.image),
+    images: pkg.images?.map((url) => normalizeCrmFileUrl(url)),
+    video: normalizeCrmFileUrl(pkg.video),
+    videos: pkg.videos?.map((url) => normalizeCrmFileUrl(url)),
+  };
+}
+
 export async function getPackages(): Promise<Package[]> {
   const data = await fetchFromCrm<{ packages: Package[] }>("/api/public/packages");
   const packages = data?.packages ?? PACKAGES;
   // The CRM returns packages oldest-first (manual `order`, then createdAt
   // ascending) — reverse so the most recently added package shows first.
-  return [...packages].reverse();
+  return [...packages].reverse().map(normalizePackageMedia);
 }
 
 export async function getPackageBySlug(slug: string): Promise<Package | null> {
@@ -47,12 +82,12 @@ export async function getPackageBySlug(slug: string): Promise<Package | null> {
 
 export async function getGalleryImages(): Promise<string[]> {
   const data = await fetchFromCrm<{ images: string[] }>("/api/public/gallery");
-  return data?.images ?? GALLERY_IMAGES;
+  return (data?.images ?? GALLERY_IMAGES).map((url) => normalizeCrmFileUrl(url));
 }
 
 export async function getGalleryVideos(): Promise<string[]> {
   const data = await fetchFromCrm<{ videos: string[] }>("/api/public/gallery-videos");
-  return data?.videos ?? GALLERY_VIDEOS;
+  return (data?.videos ?? GALLERY_VIDEOS).map((url) => normalizeCrmFileUrl(url));
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
@@ -67,5 +102,5 @@ export async function getDestinations(): Promise<Destination[]> {
 
 export async function getBranding(): Promise<{ logoUrl: string | null }> {
   const data = await fetchFromCrm<{ logoUrl: string | null }>("/api/public/branding");
-  return { logoUrl: data?.logoUrl ?? null };
+  return { logoUrl: normalizeCrmFileUrl(data?.logoUrl) };
 }
